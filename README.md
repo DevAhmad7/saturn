@@ -36,7 +36,7 @@
 
 ## Short code
 ```js
-saturn('.nameElem').run({});
+saturn('.nameElem').run();
 ```
 
 ## Long code
@@ -155,7 +155,7 @@ saturn('.nameElem').run({
 
 ## :joystick:Other usage !
 ```js
-var slider = saturn('.nameElem').run({});
+var slider = saturn('.nameElem').run();
 /////////////////////////////////////////
 slider.laptop({
     starter: 3, // type(number) default: 1
@@ -188,7 +188,7 @@ slider.laptop({
 - then 
 
 ```js
-var slider = saturn('.nameElem').run({});
+var slider = saturn('.nameElem').run();
 
 document.querySelector('.next').onclick = function () {slider.next()}
 document.querySelector('.prev').onclick = function () {slider.prev()}
@@ -202,15 +202,22 @@ document.querySelector('.prev').onclick = function () {slider.prev()}
 - then 
 
 ```js
-var slider = saturn('.nameElem').run({});
+var slider = saturn('.nameElem').run();
 
 document.querySelector('.play').onclick = function () {slider.play()}
 document.querySelector('.stop').onclick = function () {slider.stop()}
 ```
 
+## refresh saturn
+```js
+var slider = saturn('.nameElem').run();
+
+slider.refresh();
+```
+
 ## destroy saturn
 ```js
-var slider = saturn('.nameElem').run({});
+var slider = saturn('.nameElem').run();
 
 slider.destroy();
 ```
