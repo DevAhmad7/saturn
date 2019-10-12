@@ -43,7 +43,8 @@ saturn('.nameElem').run();
 ```js
 saturn('.nameElem').run({
     desktop: { // desktop = default for all windows
-        dir: 'left', // type(string) default: left
+        dir: 'rtl', // type(string) default: ltr
+        moveTo: 'left', // type(string) default: left
         dotShow: true, // type(boolean) default: true
         dotEach: false, // type(boolean) default: left
         autoPlay: true, // type(boolean) default: false
@@ -77,7 +78,6 @@ saturn('.nameElem').run({
 ```js
 saturn('.nameElem').run({
     desktop: { // desktop = default for all windows
-        dir: 'left', // type(string) default: left
         dotShow: true, // type(boolean) default: true
         dotEach: false, // type(boolean) default: left
         autoPlay: true, // type(boolean) default: false
@@ -119,7 +119,6 @@ saturn('.nameElem').run({
         loop: true // type(boolean) default: true
     },
     tablet: {
-        dir: 'right', // type(string) default: left
         dotShow: false, // type(boolean) default: true
         autoPlay: true, // type(boolean) default: false
         active: 2, // type(number) default: 2
@@ -161,7 +160,6 @@ slider.laptop({
     starter: 3, // type(number) default: 1
     navShow: false, // type(boolean) default: true
     margin: 7, // type(string-number) default: ''
-    dir: 'right', // type(string) default: left
     dotShow: false, // type(boolean) default: true
     autoPlay: true, // type(boolean) default: false
 }).desktop({
