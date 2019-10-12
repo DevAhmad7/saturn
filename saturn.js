@@ -2,13 +2,15 @@
  * //////////////////////////
  * @name Saturn.js
  * @author Dev Ahmad Hasan
- * @version 1.0.0 2019-10-10
+ * @version 1.0.1 2019-10-10
+ * @update 2019-10-13
  * @copyright (c) 2019-2020 Saturn
  * @license MIT-License-(MIT)
- * @website https://devahmad7.github.io/saturn/index.html
+ * @website https://devahmad7.github.io/saturn/
  * @todo Updates coming soon
  * //////////////////////////
 **/
+
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -21,16 +23,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/**
- * //////////////////////////
- * @name Saturn
- * @version 1.0.0
- * @copyright 2019-2020 Saturn
- * @author Dev Ahmad Hasan
- * @license MIT-License-(MIT)
- * @todo 
- * //////////////////////////
-**/
 var Getter = function () {
     function Getter(data) {
         _classCallCheck(this, Getter);
@@ -200,6 +192,7 @@ var Getter = function () {
             var rect = this.norm[0].getBoundingClientRect();
             return {
                 left: rect.left + window.scrollX,
+                right: rect.right + window.scrollX,
                 top: rect.top + window.scrollY
             };
         }
@@ -228,7 +221,8 @@ var SATURN = function () {
 
         // standerd values
         this.standerd = {
-            dir: 'left',
+            dir: 'ltr',
+            moveTo: 'left',
             dotShow: true,
             dotEach: false,
             autoPlay: false,
@@ -294,6 +288,7 @@ var SATURN = function () {
                     navPrev: opt.navPrev == undefined ? std.navPrev : opt.navPrev,
                     navNext: opt.navNext == undefined ? std.navNext : opt.navNext,
                     dir: opt.dir == undefined ? std.dir : opt.dir,
+                    moveTo: opt.moveTo == undefined ? std.moveTo : opt.moveTo,
                     dotShow: opt.dotShow == undefined ? std.dotShow : opt.dotShow,
                     dotEach: opt.dotEach == undefined ? std.dotEach : opt.dotEach,
                     autoPlay: opt.autoPlay == undefined ? std.autoPlay : opt.autoPlay,
@@ -386,14 +381,14 @@ var SATURN = function () {
                 this.startPoint--;
                 if (this.startPoint < this.started) {
                     this.startPoint = this.ended - 1;
-                    this.moveJust(-this.startPoint * this.oneWidth, '0ms');
+                    this.moveJust(this.options.dir * (this.startPoint * this.oneWidth), '0ms');
                     this.startPoint--;
                 }
             } else {
                 if (this.startPoint > 0) this.startPoint--;else this.repeateAutoPlay = true;
             }
             setTimeout(function () {
-                _this6.movement(-_this6.startPoint * _this6.oneWidth, _this6.transition);
+                _this6.movement(_this6.options.dir * (_this6.startPoint * _this6.oneWidth), _this6.transition);
             }, 70);
         }
     }, {
@@ -406,14 +401,14 @@ var SATURN = function () {
                 this.startPoint++;
                 if (this.startPoint >= this.ended) {
                     this.startPoint = this.started;
-                    this.moveJust(-this.startPoint * this.oneWidth, '0ms');
+                    this.moveJust(this.options.dir * (this.startPoint * this.oneWidth), '0ms');
                     this.startPoint++;
                 }
             } else {
                 if (this.startPoint < this.ended) this.startPoint++;else this.repeateAutoPlay = true;
             }
             setTimeout(function () {
-                _this7.movement(-_this7.startPoint * _this7.oneWidth, _this7.transition);
+                _this7.movement(_this7.options.dir * (_this7.startPoint * _this7.oneWidth), _this7.transition);
             }, 70);
         }
         ////////////////////////////////////////////
@@ -508,6 +503,13 @@ var SATURN = function () {
                     });
                 }
                 /////////////////////////////////////
+                if (this.options.dir == 'ltr') {
+                    this.mainElem.css('direction', '');
+                    this.options.dir = -1;
+                } else {
+                    this.mainElem.css('direction', this.options.dir);
+                    this.options.dir = 1;
+                }
                 this.options.starter = this.options.starter > this.mainLength || this.options.starter <= 0 ? 1 : this.options.starter;
                 this.options.active = this.options.active > this.mainLength ? this.mainLength : this.options.active;
                 this.cloned = this.options.active > 2 ? this.options.active : 3;
@@ -548,7 +550,7 @@ var SATURN = function () {
                         var handleDots = function handleDots(data) {
                             _this9.startPoint = parseInt($dev(data).attr('index'));
                             if (_this9.startPoint > _this9.ended && !_this9.options.loop) _this9.startPoint = _this9.ended;
-                            _this9.movement(-_this9.startPoint * _this9.oneWidth, _this9.transition);
+                            _this9.movement(_this9.options.dir * (_this9.startPoint * _this9.oneWidth), _this9.transition);
                         };
                         $dev(_this9.outerDots.find('.saturn-dot')).each(function (data) {
                             $dev(data).on("mousedown touchstart", function (e) {
@@ -621,7 +623,7 @@ var SATURN = function () {
             this.outerItems.width(parseFloat(this.oneWidth * this.newLength));
             this.newItems.width(this.oneWidth);
             /////////////////////////////////////////
-            this.movement(-this.startPoint * this.oneWidth, '0s');
+            this.movement(this.options.dir * (this.startPoint * this.oneWidth), '0s');
             return this;
         }
         /////////////////////////////////////////////
@@ -716,7 +718,7 @@ var SATURN = function () {
 
             if (this.options.autoPlay && !document.hidden) {
                 this.setPlayAuto = setInterval(function () {
-                    if (_this11.options.dir == "left") {
+                    if (_this11.options.moveTo == "left") {
                         _this11.handleNext();
                         if (!_this11.options.loop && _this11.repeateAutoPlay) {
                             _this11.repeateAutoPlay = false;
@@ -771,7 +773,11 @@ var SATURN = function () {
             ////////////////////////////////////////////
             var dragestart = function dragestart(pos) {
                 dragr = true;_this13.container.addClass('saturn-grabbing').removeClass('saturn-grab');
-                post = parseFloat(_this13.outerItems.client().left - _this13.centering.client().left).toFixed(2);
+                if (_this13.options.dir == -1) {
+                    post = parseFloat(_this13.outerItems.client().left - _this13.centering.client().left).toFixed(2);
+                } else {
+                    post = parseFloat(_this13.outerItems.client().right - _this13.centering.client().right).toFixed(2);
+                }
                 _this13.movement(post, _this13.transition, false);
                 return startPos = pos;
             };
@@ -782,27 +788,53 @@ var SATURN = function () {
                     var distance = Math.ceil(Math.abs((startPos - pos) / _this13.oneWidth));
                     var swipe = _this13.options.dragType == 'swipe';
                     distance = swipe ? distance > 1 ? 1 : distance : distance;
-                    if (_this13.options.loop) {
-                        if (startPos - pos > 20) {
-                            _this13.startPoint += distance;
-                            _this13.movement(-_this13.startPoint * _this13.oneWidth, _this13.transition);
-                        } else if (pos - startPos > 20) {
-                            _this13.startPoint -= distance;
-                            _this13.movement(-_this13.startPoint * _this13.oneWidth, _this13.transition);
+                    if (_this13.options.dir == -1) {
+                        if (_this13.options.loop) {
+                            if (startPos - pos > 20) {
+                                _this13.startPoint += distance;
+                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                            } else if (pos - startPos > 20) {
+                                _this13.startPoint -= distance;
+                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                            } else {
+                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                            }
                         } else {
-                            _this13.movement(-_this13.startPoint * _this13.oneWidth, _this13.transition);
+                            if (startPos - pos > 20) {
+                                _this13.startPoint += distance;
+                                if (_this13.startPoint >= _this13.ended) _this13.startPoint = _this13.ended;
+                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                            } else if (startPos - pos < 20) {
+                                _this13.startPoint -= distance;
+                                if (_this13.startPoint <= 0) _this13.startPoint = 0;
+                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                            } else {
+                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                            }
                         }
                     } else {
-                        if (startPos - pos > 20) {
-                            _this13.startPoint += distance;
-                            if (_this13.startPoint >= _this13.ended) _this13.startPoint = _this13.ended;
-                            _this13.movement(-_this13.startPoint * _this13.oneWidth, _this13.transition);
-                        } else if (startPos - pos < 20) {
-                            _this13.startPoint -= distance;
-                            if (_this13.startPoint <= 0) _this13.startPoint = 0;
-                            _this13.movement(-_this13.startPoint * _this13.oneWidth, _this13.transition);
+                        if (_this13.options.loop) {
+                            if (startPos - pos > 20) {
+                                _this13.startPoint -= distance;
+                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                            } else if (pos - startPos > 20) {
+                                _this13.startPoint += distance;
+                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                            } else {
+                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                            }
                         } else {
-                            _this13.movement(-_this13.startPoint * _this13.oneWidth, _this13.transition);
+                            if (startPos - pos > 20) {
+                                _this13.startPoint -= distance;
+                                if (_this13.startPoint <= 0) _this13.startPoint = 0;
+                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                            } else if (startPos - pos < 20) {
+                                _this13.startPoint += distance;
+                                if (_this13.startPoint >= _this13.ended) _this13.startPoint = _this13.ended;
+                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                            } else {
+                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                            }
                         }
                     }
                     _this13.container.addClass('saturn-grab').removeClass('saturn-grabbing');
@@ -818,30 +850,57 @@ var SATURN = function () {
                     var swipe = _this13.options.dragType == 'swipe';
                     constant = swipe ? 0.1 : 1;
                     distance = swipe ? distance > 1 ? 1 : distance : distance;
-                    if (_this13.options.loop) {
-                        // = 1;
-                        if (pos < startPos) {
-                            if (_this13.startPoint + distance > _this13.ended - 1) {
-                                _this13.startPoint = _this13.started;startPos = pos;post = -(_this13.startPoint * _this13.oneWidth);
+                    if (_this13.options.dir == -1) {
+                        if (_this13.options.loop) {
+                            if (pos < startPos) {
+                                if (_this13.startPoint + distance > _this13.ended - 1) {
+                                    _this13.startPoint = _this13.started;startPos = pos;post = _this13.options.dir * (_this13.startPoint * _this13.oneWidth);
+                                }
+                                observer = _this13.startPoint + distance;
+                            } else {
+                                if (_this13.startPoint - distance < _this13.started) {
+                                    _this13.startPoint = _this13.ended - 1;startPos = pos;post = _this13.options.dir * (_this13.startPoint * _this13.oneWidth);
+                                }
+                                observer = _this13.startPoint - distance;
                             }
-                            observer = _this13.startPoint + distance;
                         } else {
-                            if (_this13.startPoint - distance < _this13.started) {
-                                _this13.startPoint = _this13.ended - 1;startPos = pos;post = -(_this13.startPoint * _this13.oneWidth);
+                            if (pos < startPos) {
+                                if (_this13.startPoint >= _this13.ended) {
+                                    constant = 0.1;
+                                }
+                                observer = _this13.startPoint + distance;
+                            } else {
+                                if (_this13.startPoint <= 0) {
+                                    constant = 0.1;
+                                }
+                                observer = _this13.startPoint - distance;
                             }
-                            observer = _this13.startPoint - distance;
                         }
                     } else {
-                        if (pos < startPos) {
-                            if (_this13.startPoint >= _this13.ended) {
-                                constant = 0.1;
+                        if (_this13.options.loop) {
+                            if (pos > startPos) {
+                                if (_this13.startPoint + distance > _this13.ended - 1) {
+                                    _this13.startPoint = _this13.started;startPos = pos;post = _this13.options.dir * (_this13.startPoint * _this13.oneWidth);
+                                }
+                                observer = _this13.startPoint + distance;
+                            } else {
+                                if (_this13.startPoint - distance < _this13.started) {
+                                    _this13.startPoint = _this13.ended - 1;startPos = pos;post = _this13.options.dir * (_this13.startPoint * _this13.oneWidth);
+                                }
+                                observer = _this13.startPoint - distance;
                             }
-                            observer = _this13.startPoint + distance;
                         } else {
-                            if (_this13.startPoint <= 0) {
-                                constant = 0.1;
+                            if (pos > startPos) {
+                                if (_this13.startPoint >= _this13.ended) {
+                                    constant = 0.1;
+                                }
+                                observer = _this13.startPoint + distance;
+                            } else {
+                                if (_this13.startPoint <= 0) {
+                                    constant = 0.1;
+                                }
+                                observer = _this13.startPoint - distance;
                             }
-                            observer = _this13.startPoint - distance;
                         }
                     }
                     _this13.movement(ended, '0ms', observer);
