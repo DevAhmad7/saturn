@@ -1,25 +1,23 @@
 <!-- file Name is index.html -->
 <!-- created By Ahmad Hasan -->
-
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>saturn.js</title>
+    <title>saturn.js with DevAhmad.H</title>
     <link rel="icon" href="https://i.ibb.co/nQsD21Z/saturn.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        /* Google Fonts your are selected it */
-        @import url('https://fonts.googleapis.com/css?family=Ubuntu|');
-        /* created By Ahmad Hasan */
         /* ////////////////////// */
+        @import url('https://fonts.googleapis.com/css?family=Righteous|Source+Code+Pro&display=swap');
+
         /* defualt settings */
         * {
             padding: 0px;
             margin: 0px;
-            transition: .4s;
+            /* transition: all 0.4s; */
             box-sizing: border-box;
             outline: none;
             border: 0px;
@@ -30,258 +28,1678 @@
             -moz-user-select: none;
             -o-user-select: none;
             user-select: none;
+            appearance: none;
+            -webkit-appearance: none;
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
             -moz-tap-highlight-color: rgba(0, 0, 0, 0);
             -o-tap-highlight-color: rgba(0, 0, 0, 0);
+            scrollbar-color: #24292e #404448;
+            scrollbar-width: thin;
+        }
+
+        /*//////////////////////////////////////////////////////////////*/
+        *::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: #24292e;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: #404448;
+        }
+
+        *::-o-scrollbar {
+            width: 8px;
+        }
+
+        *::-o-scrollbar-track {
+            background: #24292e;
+        }
+
+        *::-o-scrollbar-thumb {
+            background-color: #404448;
         }
 
         /* for body */
         body {
             width: 100%;
             height: 100vh;
-            background: none;
+            background: #24292e;
+            position: relative;
         }
 
         /* ---------------- for main Class ---------------- */
-        /* --- this class ( top ) his parent ( body ) and his children ( outLogo, outGit ) --- */
-        .top {
-            width: 100%;
-            height: 120px;
-            background: #24292e;
+        /* --- this class ( left ) his parent ( main ) and his children ( topInLeft, botInLeft ) --- */
+        .leftMain {
+            width: 300px;
+            height: 100%;
             display: block;
             position: relative;
-        }
-
-        /* --- this class ( outLogo ) his parent ( top ) and his children ( logo ) --- */
-        .outLogo {
-            width: 120px;
-            height: 120px;
-            background: none;
-            display: block;
-            position: relative;
-            margin-left: 10px;
             float: left;
         }
 
-        /* --- this class ( logo ) his parent ( outLogo ) and his children ( no ) --- */
-        .logo {
+        /* --- this class ( topInLeft ) his parent ( left ) and his children ( infoTextTop, infoImgTop ) --- */
+        .topInLeft {
             width: 100%;
-            height: 100%;
-            position: relative;
+            height: 100px;
             display: block;
-            top: 50%;
-            left: 50%;
-            right: auto;
-            bottom: auto;
-            transform: translate(-50%, -50%);
+            position: relative;
         }
 
-        /* --- this class ( outGit ) his parent ( top ) and his children ( github ) --- */
-        .outGit {
-            width: calc(100% - 130px);
-            height: 120px;
+        /* --- this class ( infoTextTop ) his parent ( topInLeft ) and his children ( infoText-1, infoText-2 ) --- */
+        .infoTextTop {
+            width: 100%;
+            height: 50px;
+            display: block;
+            position: relative;
+        }
+
+        /* --- this class ( infoText ) his parent ( infoTextTop ) and his children ( no ) --- */
+        .infoText {
+            width: 100%;
+            height: 25px;
             background: none;
             display: block;
+            line-height: 30px;
             position: relative;
-            float: right;
+            font-size: 13px;
+            text-align: center;
+            color: #fff;
+            font-family: 'Righteous', cursive;
+        }
+        .infoText a{
+            color: #ffca28;
+        }
+        .infoText span{
+            color: #00a8f7;
+        }
+        /* --- this class ( infoImgTop ) his parent ( topInLeft ) and his children ( infoImg-1, infoImg-2, infoImg-3 ) --- */
+        .infoImgTop {
+            width: 100%;
+            height: 50px;
+            display: block;
+            position: relative;
         }
 
-        /* --- this class ( github ) his parent ( outGit ) and his children ( no ) --- */
-        .github {
-            width: auto;
-            height: auto;
-            background: #404448;
-            line-height: 40px;
-            text-align: center;
+        /* --- this class ( infoImg ) his parent ( infoImgTop ) and his children ( logos-1 ) --- */
+        .infoImg {
+            width: 33.33%;
+            height: 100%;
+            display: block;
+            float: left;
+            position: relative;
+        }
+
+        /* --- this class ( logos ) his parent ( infoImg ) and his children ( no ) --- */
+        .logos {
+            width: 40px;
+            height: 40px;
             position: absolute;
             top: 50%;
             left: 50%;
             cursor: pointer;
             transform: translate(-50%, -50%);
-            padding: 2px 15px;
-            font-family: Ubuntu, sans-serif;
-            font-size: 16px;
-            color: #949494;
-            border: 1px solid #949494;
-            border-radius: 5px;
+        }
+
+        .logos svg:hover {
+            fill: #e9e9e9;
+        }
+
+        .logos#menu-bar {
+            display: none;
+        }
+
+        /* --- this class ( botInLeft ) his parent ( left ) and his children ( outerItemsOptions ) --- */
+        .botInLeft {
+            width: 100%;
+            height: calc(100% - 100px);
+            display: block;
+            position: relative;
+            overflow: auto;
+            background: #24292e;
+        }
+
+        /* --- this class ( outerItemsOptions ) his parent ( botInLeft ) and his children ( innerOptions-1, innerOptions-2, innerOptions-3, innerOptions-4, innerOptions-5 ) --- */
+        .outerItemsOptions {
+            width: 98%;
+            height: auto;
+            display: block;
+            position: relative;
+            margin: auto;
+        }
+
+        /* --- this class ( innerOptions ) his parent ( outerItemsOptions ) and his children ( no ) --- */
+        .innerOptions {
+            width: 100%;
+            height: 35px;
+            color: #b7b7b7;
+            background: #404448;
+            display: block;
+            position: relative;
+            margin-top: 4px;
+            line-height: 35px;
+            border-radius: 3px;
+            padding-left: 10px;
             text-transform: capitalize;
+            text-align: left;
+            cursor: pointer;
+            transition: .4s;
+            font-family: 'Righteous', cursive;
+            overflow: hidden;
         }
 
-        .github:hover {
-            color: #bebebe;
-            border: 1px solid #bebebe;
-        }
-
-        /* --- this class ( center ) his parent ( body ) and his children ( no ) --- */
-        .center {
-            width: 100%;
-            height: calc(100% - 210px);
-            display: block;
-            position: relative;
-            top: 0px;
-        }
-
-        .position {
-            display: block;
-            position: relative;
-            top: 50%;
+        .innerOptions::before {
+            content: "";
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            background: #00a8f7;
+            position: absolute;
             transform: translateY(-50%);
+            top: 50%;
+            left: -100%;
+            transition: 0.3s;
         }
 
-        /* --- this class ( bottom ) his parent ( body ) and his children ( botHalf-1, botHalf-2 ) --- */
-        .bottom {
+        .innerOptions:hover,
+        .innerOptions.active {
+            background: #1d1f21;
+            color: #ffca28;
+        }
+
+        .innerOptions.active {
+            padding-left: 30px;
+        }
+
+        .innerOptions.active::before {
+            left: 10px;
+        }
+
+        /* --- this class ( right ) his parent ( main ) and his children ( topInRight, botInRight ) --- */
+        .rightMain {
+            width: calc(100% - 300px);
+            height: 100%;
+            display: block;
+            position: relative;
+            float: left;
+        }
+
+        /* --- this class ( topInRight ) his parent ( right ) and his children ( ctrEditor, outerEditor ) --- */
+        .topInRight {
             width: 100%;
-            height: 90px;
+            height: 50%;
+            background: none;
+            display: block;
+            position: relative;
+            transition: 0ms;
+        }
+
+        .outerMainEditor {
+            width: 100%;
+            height: calc(100% - 5px);
+        }
+
+        /* --- this class ( ctrEditor ) his parent ( topInRight ) and his children ( outerIconsLang-1, outerIconsLang-2, outerIconsLang-3 ) --- */
+        .ctrEditor {
+            width: 33px;
+            height: 100%;
+            background: #fff;
+            display: block;
+            position: relative;
+            float: left;
+            overflow: hidden;
+        }
+
+        /* --- this class ( outerIconsLang ) his parent ( ctrEditor ) and his children ( innerIconsLang-1 ) --- */
+        .outerIconsLang {
+            width: 100%;
+            height: 33.33%;
+            background: #1d1f21;
+            display: block;
+            position: relative;
+            cursor: pointer;
+            transition: 0.4s ease;
+        }
+
+        .backerGround {
+            width: 20px;
+            height: 22px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transition: 0.4s ease;
+            background: snow;
+            display: none;
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        /* --- this class ( innerIconsLang ) his parent ( outerIconsLang ) and his children ( no ) --- */
+        .innerIconsLang {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            right: auto;
+            bottom: auto;
+            transition: 0.4s ease;
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        .innerIconsLang[alt="javascript"] {
+            width: 35px;
+            height: 35px;
+        }
+
+        .outerIconsLang[data-id="#htmlEditor"]:hover,
+        .outerIconsLang[data-id="#htmlEditor"].active {
+            background: #fc490b;
+        }
+
+        .outerIconsLang:hover .backerGround,
+        .outerIconsLang.active .backerGround {
+            display: block
+        }
+
+        .outerIconsLang[data-id="#cssEditor"]:hover,
+        .outerIconsLang[data-id="#cssEditor"].active {
+            background: #00a8f7;
+        }
+
+        .outerIconsLang[data-id="#jsEditor"] .backerGround {
+            width: 25px;
+            height: 22px;
+        }
+
+        .outerIconsLang[data-id="#jsEditor"]:hover,
+        .outerIconsLang[data-id="#jsEditor"].active {
+            background: #ffca28;
+        }
+
+        /* --- this class ( outerEditor ) his parent ( topInRight ) and his children ( innerEditorLang-1, innerEditorLang-2, innerEditorLang-3 ) --- */
+        .outerEditor {
+            background: #121417;
+            width: calc(100% - 33px);
+            height: 100%;
+            display: block;
+            position: relative;
+            float: left;
+            overflow: hidden;
+        }
+
+        /* --- this class ( innerEditorLang ) his parent ( outerEditor ) and his children ( no ) --- */
+        .innerEditorLang {
+            width: 0%;
+            height: 100%;
+            color: seashell;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            float: left;
+        }
+
+        .innerEditorLang.active {
+            width: 100%;
+        }
+
+        .innerEditorLang pre {
+            transition: 0ms;
+            height: 100%;
+            width: 100%;
+            font-weight: normal;
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        .markDown {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: 999999;
+            display: none;
+        }
+
+        .markDown pre {
+            transition: 0ms;
+            height: 100%;
+            width: 100%;
+            font-weight: normal;
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        /* --- this class ( botInRight ) his parent ( right ) and his children ( previewEnd ) --- */
+        .botInRight {
+            width: 100%;
+            height: 50%;
+            background: #1d1f21;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            transition: 0ms;
+        }
+
+        .infoForCode {
+            width: 100%;
+            height: 30px;
             background: #24292e;
             display: block;
             position: relative;
+            color: #b7b7b7;
+            line-height: 30px;
+            text-transform: capitalize;
+            text-align: center;
+            font-size: 14px;
+            font-family: 'Righteous', cursive;
         }
 
-        /* --- this class ( botHalf ) his parent ( bottom ) and his children ( no ) --- */
-        .botHalf {
-            width: 33.33%;
-            height: 100%;
+        /* --- this class ( previewEnd ) his parent ( botInRight ) and his children ( no ) --- */
+        .previewEnd {
+            width: 100%;
+            height: calc(100% - 30px);
+            display: block;
+            position: relative;
+            overflow: auto;
+        }
+
+        #resize-bar {
+            width: 100%;
+            height: 5px;
+            background: oldlace;
+            cursor: ns-resize;
+        }
+
+        .extendWidthRes {
+            width: 100%;
+            height: 1px;
+            position: absolute;
+            background: none;
+            left: 0px;
+            top: 0px;
+        }
+
+        #ctrWindowCode {
+            width: auto;
+            height: auto;
+            background: #24292e;
+            display: block;
+            position: absolute;
+            overflow: hidden;
+            top: 50%;
+            right: -100%;
+            transform: translateY(-50%);
+            border-radius: 4px;
+            transition: 0.4s;
+        }
+
+        #ctrWindowCode.active {
+            right: 2px;
+        }
+
+        /* --- this class ( ctrIconsWindow ) his parent ( mau ) and his children ( no ) --- */
+        .ctrIconsWindow {
+            width: 30px;
+            height: 30px;
             background: none;
             display: block;
-            line-height: 90px;
+            line-height: 30px;
             position: relative;
             float: left;
+            font-size: 14px;
             text-align: center;
-            font-size: 16px;
-            color: #949494;
-            font-family: Ubuntu, sans-serif;
-            text-transform: capitalize;
+            color: #ffffff;
+            cursor: pointer;
         }
 
-        /* -- ( botHalf-1 ) is another class for ( botHalf ) -- */
-        .botHalf span {
-            display: inline;
-            color: #03a9f4;
+        .ctrIconsWindow:hover {
+            color: #00a8f7;
         }
 
-        .saturn-item img {
-            height: auto;
-        }
-
-        .saturn-prev i, .saturn-next i {
-            font-size: 30px;
-        }
-
-        @media(min-width: 500px) and (max-width: 800px) {
-            .botHalf {
+        @media(min-width: 0px) and (max-width: 769px) {
+            .leftMain {
                 width: 100%;
-                height: 30px;
-                line-height: 30px;
-                font-size: 15px;
-            }
-        }
-
-        @media screen and (max-width: 499px) {
-            .github {
-                padding: 2px 5px;
-                font-size: 14px;
+                height: 100px;
             }
 
-            .botHalf {
+            .logos#menu-bar {
+                display: block;
+            }
+
+            .botInLeft {
+                display: none;
+                position: absolute;
+                top: 100px;
+                height: auto;
+                max-height: 400px;
+                z-index: 999999999;
+                transition: 0ms;
+            }
+
+            .rightMain {
                 width: 100%;
-                height: 30px;
-                line-height: 30px;
-                font-size: 15px;
+                height: calc(100% - 100px);
             }
         }
     </style>
-    <script src="saturn.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ext-emmet.js"></script>
+    <script src="https://cloud9ide.github.io/emmet-core/emmet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/ext-beautify.js"></script>
 </head>
 
 <body>
-    <div class="top">
-        <div class="outLogo">
-            <img src="https://i.ibb.co/nQsD21Z/saturn.png" class="logo" alt="">
+    <div class="extendWidthRes"></div>
+    <div class="leftMain">
+        <div class="topInLeft">
+            <div class="infoTextTop">
+                <span class="infoText">Author: <a href="https://www.facebook.com/DevA7mad" target="blank">Dev Ahmad Hassan</a>
+                </span>
+                <span class="infoText">saturn.js <span>v1.0.1</span>
+                </span>
+            </div>
+            <div class="infoImgTop">
+                <span class="infoImg">
+                    <img src="https://i.ibb.co/nQsD21Z/saturn.png" class="logos" alt="saturn">
+                </span>
+                <span class="infoImg">
+                    <div class="logos" style="width: 30px;height: 30px;" id="menu-bar">
+                        <svg height="30" viewBox="0 0 16 16" width="30" aria-hidden="true" fill="#fff">
+                            <path
+                                d="M11.41 9H.59C0 9 0 8.59 0 8c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zm0-4H.59C0 5 0 4.59 0 4c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zM.59 11H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1H.59C0 13 0 12.59 0 12c0-.59 0-1 .59-1z">
+                            </path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="infoImg">
+                    <a class="logos" href="https://github.com/DevAhmad7/saturn" target="blank" style="width: 30px;height: 30px;">
+                        <svg height="30" viewBox="0 0 16 16" width="30" aria-hidden="true" fill="#fff">
+                            <path
+                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z">
+                            </path>
+                        </svg>
+                    </a>
+                </span>
+            </div>
         </div>
-        <div class="outGit">
-            <a class="github" href="https://github.com/DevAhmad7/saturn">Saturn goto Github
-            </a>
-        </div>
-    </div>
-    <div class="center">
-        <div class="position">
-            <div class="elemtest">
-                <div>
-                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Javascript-Pure">
+        <div class="botInLeft" id="drobdown-opt">
+            <div class="outerItemsOptions">
+                <div class="innerOptions" data="#markD">
+                    get started
                 </div>
-                <div>
-                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Loop">
+                <div class="innerOptions" data="#howUse1">
+                    how to use 1
                 </div>
-                <div>
-                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Drag(Swipe-Free)">
+                <div class="innerOptions" data="#howUse2">
+                    how to use 2
                 </div>
-                <div>
-                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Responsive">
+                <div class="innerOptions active" data="#allOptoins">
+                    all options
+                    <div id="ctrWindowCode" class="active">
+                        <span class="ctrIconsWindow fa fa-code" title="Make the code fill the window">
+                        </span>
+                        <span class="ctrIconsWindow fa fa-eye" title="Make the preview fill the window">
+                        </span>
+                        <span class="ctrIconsWindow fa fa-refresh"
+                            title="Make the code and preview equal and reset code to original">
+                        </span>
+                    </div>
                 </div>
-                <div>
-                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Lazy-Load">
+                <div class="innerOptions" data="#lazyLoad">
+                    lazy load
                 </div>
-                <div>
-                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Animation">
+                <div class="innerOptions" data="#customDot">
+                    custom dot
                 </div>
-                <div>
-                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Easy-Setup">
+                <div class="innerOptions" data="#customCTR">
+                    custom control
                 </div>
-                <div>
-                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Less-Code">
+                <div class="innerOptions" data="#effectInOut">
+                    add animation
                 </div>
-                <div>
-                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Customizable-Options">
+                <div class="innerOptions" data="#effectItems">
+                    item (prev-active-next)
+                </div>
+                <div class="innerOptions" data="#responsive">
+                    responsive
+                </div>
+                <div class="innerOptions" data="#loopCenter">
+                    loop - center
+                </div>
+                <div class="innerOptions" data="#autoplay">
+                    auto play
+                </div>
+                <div class="innerOptions" data="#autoheight">
+                    auto height
+                </div>
+                <div class="innerOptions" data="#dirMoveTo">
+                    dir - moveTo
+                </div>
+                <div class="innerOptions" data="#dragScroll">
+                    drag - scroll
+                </div>
+                <div class="innerOptions" data="#moveAfter">
+                    move after transition
                 </div>
             </div>
         </div>
     </div>
-    <div class="bottom">
-        <span class="botHalf botHalf-1">
-            <span>author</span> Dev Ahmad.H
-        </span>
-        <span class="botHalf">
-            <span>copyright</span> 2019-2020
-        </span>
-        <span class="botHalf">
-            <span>version</span> 1.0.1
-        </span>
+    <div class="rightMain">
+        <div class="topInRight">
+            <div class="outerMainEditor">
+                <div class="ctrEditor">
+                    <span class="outerIconsLang" data-id="#htmlEditor">
+                        <span class="backerGround"></span>
+                        <img class="innerIconsLang" src="https://i.ibb.co/0mk18Jy/html-5.png" alt="html-5">
+                    </span>
+                    <span class="outerIconsLang" data-id="#cssEditor">
+                        <span class="backerGround"></span>
+                        <img class="innerIconsLang" src="https://i.ibb.co/3z4dQsJ/css-3.png" alt="css-3">
+                    </span>
+                    <span class="outerIconsLang active" data-id="#jsEditor">
+                        <span class="backerGround"></span>
+                        <img class="innerIconsLang" src="https://i.ibb.co/p39kn8b/javascript.png" alt="javascript">
+                    </span>
+                </div>
+                <div class="outerEditor">
+                    <div class="innerEditorLang" id="htmlEditor">
+                        <pre name="code" id="htmlCode"></pre>
+                    </div>
+                    <div class="innerEditorLang" id="cssEditor">
+                        <pre name="code" id="cssCode"></pre>
+                    </div>
+                    <div class="innerEditorLang active" id="jsEditor">
+                        <pre name="code" id="jsCode"></pre>
+                    </div>
+                </div>
+            </div>
+            <div id="resize-bar" title="drag to resize"></div>
+        </div>
+        <div class="botInRight">
+            <div class="infoForCode">
+                You can modify the code to see the result
+            </div>
+            <iframe class="previewEnd" id="iframePreview" src=""></iframe>
+        </div>
+        <div class="markDown">
+            <pre name="code" id="markDown"></pre>
+        </div>
     </div>
+    <div style="display: none;">
+        <div id="markD">
+            <div data="markdown">
+            </div>
+        </div>
+        <div id="allOptoins">
+            <div data="html">
+                <!-- build slider with all options -->
+                <div class="outerCTR">
+                    <span class="iconCTR fa fa-angle-left" id="customPrev" title="Custom button prev">
+                    </span>
+                    <span class="iconCTR fa fa-close" id="destroy" title="destroy slider">
+                    </span>
+                    <span class="iconCTR fa fa-play" id="playMove" title="play movement">
+                    </span>
+                    <span class="iconCTR fa fa-stop" id="stopMove" title="stop movement">
+                    </span>
+                    <span class="iconCTR" id="gotoItem" title="Go to a specific item">2
+                    </span>
+                    <span class="iconCTR fa fa-refresh" id="refresh" title="refresh slider">
+                    </span>
+                    <span class="iconCTR fa fa-angle-right" id="customNext" title="Custom button next">
+                    </span>
+                </div>
+                <!-- to build a slider, Create as shown below -->
+                <div class="slider" id="slider">
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Javascript-Pure 1">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Loop 2">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Drag(Swipe-Free) 3">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Responsive 4">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Lazy-Load 5">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Animation 6">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Easy-Setup 7">
+                    </div>
+                </div>
+                <div class="outer" dot-for="slider">
+                    <img src="http://placehold.it/50x50/03a9f4/fff?text=1">
+                    <img src="http://placehold.it/50x50/03a9f4/fff?text=2">
+                    <img src="http://placehold.it/50x50/03a9f4/fff?text=3">
+                    <img src="http://placehold.it/50x50/03a9f4/fff?text=4">
+                    <img src="http://placehold.it/50x50/03a9f4/fff?text=5">
+                    <img src="http://placehold.it/50x50/03a9f4/fff?text=6">
+                    <img src="http://placehold.it/50x50/03a9f4/fff?text=7">
+                </div>
+            </div>
+            <div data="css">
+                /* defualt settings */
+                * {
+                padding: 0px;
+                margin: 0px;
+                box-sizing: border-box;
+                outline: none;
+                transition: 0.4s;
+                border: 0px;
+                }
+
+                /* for body */
+                body {
+                width: 100%;
+                height: 100vh;
+                }
+
+                .outerCTR {
+                width: 100%;
+                height: auto;
+                overflow: hidden;
+                }
+
+                .iconCTR {
+                width: 14.285%;
+                height: 40px;
+                background: none rgb(69, 90, 100);
+                display: block;
+                line-height: 40px;
+                float: left;
+                text-align: center;
+                cursor: pointer;
+                color: #fff;
+                }
+
+                .iconCTR:hover {
+                color: #00a8f7
+                }
+
+                .saturn i.fa {
+                font-size: 30px;
+                }
+
+                .outer {
+                position: relative;
+                left: 50%;
+                top: 10px;
+                transform: translateX(-50%);
+                display: inline-block;
+                }
+
+                .outer img {
+                width: 40px;
+                height: 40px;
+                }
+
+                .saturn-goto.active {
+                transform: scale(0.9);
+                border: 1px solid green;
+                }
+            </div>
+            <div data="js">
+                var slider = saturn('.slider').run({
+                desktop: { // default any window and screen more than 1400px
+                dir: 'ltr', // for build directions, default ('ltr') type string;
+                moveTo: 'left', // for move directions, default ('left') type string;
+                dotShow: true, // for show dots or hide, default (true) type boolean;
+                dotEach: false, // for make a dot for each item, default (false) type boolean;
+                autoPlay: false, // for move items, default (false) type boolean;
+                active: 4, // to Show a specific items on the page, default (2) type number;
+                starter: 1, // to know where to start, default (1) type number;
+                loop: true, // to make it infinite or not, default (true) type boolean;
+                margin: 4, // to set in left and right, default ('') type (string-number);
+                autoHeight: true, // to make slider auto height, default (true) type boolean;
+                centering: false, // to make items in center, default (false) type boolean;
+                navShow: true, // to show arrows or hide, default (true) type boolean;
+                navPrev: '<i class="fa fa-angle-left"></i>', // default ('prev') type text/html;
+                navNext: '<i class="fa fa-angle-right"></i>', // default ('next') type text/html;
+                moveSpeed: 700, // to set transition-duration, default (250) type number;
+                refreshRate: 250, // to set rate refresh, default (250) type number;
+                moveType: 'ease', // to set transition-timing-function, default ('ease') type string;
+                dragType: 'free', // for type of drag (swipe-free), default ('free') type string;
+                dragger: true, // to set active drag or not, default (true) type boolean;
+                navigationContainer: false, // to build Container for(arrows-dots), default (false) type boolean;
+                moveAfterTransition: true, // slider not move after transition end, default (false) type boolean;
+                wiatTime: 3000, // to make slider wiat after time end, default (2500) type number;
+                pauseOnHover: true, // to pause move when mouse is over, default (false) type boolean;
+                effectOut: 'animated flipOutY', // to add effectOut for each item, default (null) type string;
+                effectIn: 'animated flipInY', // to add effectIn for each item, default (null) type string;
+                lazyLoad: true, // to make img in slider lazy load, default (false) type boolean;
+                mouseWheel: true, // to move slider when mouseWheel is run, default (false) type boolean;
+                dotCustom: true, // to build custom dot, default (false) type boolean;
+                responsiveBase: window, // Responsiveness depends on, default (window) type node/string;
+                onDrag: function(e) {
+                // This works when slider pulls, default (null) type function;
+                },
+                onChange: function(e) {
+                // This works when slider change, default (null) type function;
+                }
+                },
+                laptop: { // for screen less than 1400px
+                dotEach: false, // for make a dot for each item, default (false) type boolean;
+                autoPlay: false, // for move items, default (false) type boolean;
+                active: 3, // to Show a specific items on the page, default (2) type number;
+                effectOut: 'animated flipOutY', // to add effectOut for each item, default (null) type string;
+                effectIn: 'animated flipInY', // to add effectIn for each item, default (null) type string;
+                lazyLoad: true, // to make img in slider lazy load, default (false) type boolean;
+                mouseWheel: false, // to move slider when mouseWheel is run, default (false) type boolean;
+                dotCustom: true, // to build custom dot, default (false) type boolean;
+                responsiveBase: window, // Responsiveness depends on, default (window) type node/string;
+                },
+                tablet: { // for screen less than 1000px
+                dotEach: true, // for make a dot for each item, default (false) type boolean;
+                autoPlay: true, // for move items, default (false) type boolean;
+                active: 2, // to Show a specific items on the page, default (2) type number;
+                mouseWheel: false, // to move slider when mouseWheel is run, default (false) type boolean;
+                navigationContainer: true, // to build Container for(arrows-dots), default (false) type boolean;
+                moveAfterTransition: true, // slider not move after transition end, default (false) type boolean;
+                },
+                phone: { // for screen less than 600px
+                dotEach: true, // for make a dot for each item, default (false) type boolean;
+                autoPlay: true, // for move items, default (false) type boolean;
+                moveSpeed: 1000, // to set transition-duration, default (250) type number;
+                moveType: 'ease-in-out', // to set transition-timing-function, default ('ease') type string;
+                dragType: 'swipe', // for type of drag (swipe-free), default ('free') type string;
+                active: 1, // to Show a specific items on the page, default (2) type number;
+                mouseWheel: false, // to move slider when mouseWheel is run, default (false) type boolean;
+                navigationContainer: true, // to build Container for(arrows-dots), default (false) type boolean;
+                moveAfterTransition: true, // slider not move after transition end, default (false) type boolean;
+                }
+                });
+                /////////////saturn play move///////////
+                document.querySelector('#playMove').onclick = function (e) {
+                slider.play(); // You can add time like 2000
+                };
+                /////////////saturn stop move///////////
+                document.querySelector('#stopMove').onclick = function (e) {
+                slider.stop();
+                };
+                /////////////saturn custom next///////////
+                document.querySelector('#customNext').onclick = function (e) {
+                slider.next();
+                };
+                /////////////saturn custom prev///////////
+                document.querySelector('#customPrev').onclick = function (e) {
+                slider.prev();
+                };
+                /////////////saturn goto item///////////
+                document.querySelector('#gotoItem').onclick = function (e) {
+                slider.goto(2);
+                };
+                /////////////saturn refresh///////////
+                document.querySelector('#refresh').onclick = function (e) {
+                slider.refresh();
+                };
+                /////////////saturn destroy///////////
+                document.querySelector('#destroy').onclick = function (e) {
+                slider.destroy();
+                };
+            </div>
+        </div>
+        <div id="lazyLoad">
+            <div data="html">
+                <!-- to activate lazy load -->
+                <!-- write saturn-lazy not src to img -->
+                <div class="slider" id="slider">
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Javascript-Pure 1">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Loop 2">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Drag(Swipe-Free) 3">
+                    </div>
+                </div>
+            </div>
+            <div data="css">
+                /* for body */
+                body {
+                width: 100%;
+                height: 100vh;
+                }
+            </div>
+            <div data="js">
+                // to activate lazy load see html Code
+                // set lazyLoad: true
+                saturn('.slider').run({
+                desktop: { // default any window and screen more than 1400px
+                dotShow: false, // for show dots or hide, default (true) type boolean;
+                navShow: false, // to show arrows or hide, default (true) type boolean;
+                autoPlay: true, // for move items, default (false) type boolean;
+                active: 2, // to Show a specific items on the page, default (2) type number;
+                lazyLoad: true, // to make img in slider lazy load, default (false) type boolean;
+                }
+                });
+            </div>
+        </div>
+        <div id="customDot">
+            <div data="html">
+                <!-- to build custom dots  -->
+                <div class="slider" id="slider">
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Javascript-Pure 1">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Loop 2">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Drag(Swipe-Free) 3">
+                    </div>
+                </div>
+                <!-- Create items with the same number of slider elements -->
+                <!-- add attribute with name (dot-for) and value(id for slider)-->
+                <div class="outer" dot-for="slider">
+                    <img src="http://placehold.it/50x50/03a9f4/fff?text=1">
+                    <img src="http://placehold.it/50x50/03a9f4/fff?text=2">
+                    <img src="http://placehold.it/50x50/03a9f4/fff?text=3">
+                </div>
+            </div>
+            <div data="css">
+                /* for body */
+                body {
+                width: 100%;
+                height: 100vh;
+                }
+
+                .outer {
+                position: relative;
+                left: 50%;
+                top: 10px;
+                transform: translateX(-50%);
+                display: inline-block;
+                }
+
+                .outer img {
+                width: 40px;
+                height: 40px;
+                }
+
+                .saturn-goto.active {
+                transform: scale(0.9);
+                border: 1px solid green;
+                }
+            </div>
+            <div data="js">
+                // to build custom dots see html Code
+                // set dotCustom: true
+                // to show all dots set dotEach: true
+                saturn('.slider').run({
+                desktop: { // default any window and screen more than 1400px
+                dotCustom: true, // to build custom dot, default (false) type boolean;
+                dotEach: false, // for make a dot for each item, default (false) type boolean;
+                centering: true, // to make items in center, default (false) type boolean;
+                margin: 3, // to set in left and right, default ('') type (string-number);
+                dotShow: false, // for show dots or hide, default (true) type boolean;
+                navShow: false, // to show arrows or hide, default (true) type boolean;
+                autoPlay: true, // for move items, default (false) type boolean;
+                lazyLoad: true, // to make img in slider lazy load, default (false) type boolean;
+                }
+                });
+            </div>
+        </div>
+        <div id="customCTR">
+            <div data="html">
+                <!-- build custom control -->
+                <div class="outerCTR">
+                    <span class="iconCTR fa fa-angle-left" id="customPrev" title="Custom button prev">
+                    </span>
+                    <span class="iconCTR fa fa-close" id="destroy" title="destroy slider">
+                    </span>
+                    <span class="iconCTR fa fa-play" id="playMove" title="play movement">
+                    </span>
+                    <span class="iconCTR fa fa-stop" id="stopMove" title="stop movement">
+                    </span>
+                    <span class="iconCTR" id="gotoItem" title="Go to a specific item">3
+                    </span>
+                    <span class="iconCTR fa fa-refresh" id="refresh" title="refresh slider">
+                    </span>
+                    <span class="iconCTR fa fa-angle-right" id="customNext" title="Custom button next">
+                    </span>
+                </div>
+
+                <div class="slider" id="slider">
+                    <div>
+                        <img src="http://placehold.it/800x550/03a9f4/fff?text=Javascript-Pure 1">
+                    </div>
+                    <div>
+                        <img src="http://placehold.it/800x550/03a9f4/fff?text=Loop 2">
+                    </div>
+                    <div>
+                        <img src="http://placehold.it/800x550/03a9f4/fff?text=Drag(Swipe-Free) 3">
+                    </div>
+                </div>
+            </div>
+            <div data="css">
+                /* for body */
+                body {
+                width: 100%;
+                height: 100vh;
+                }
+
+                .outerCTR {
+                width: 100%;
+                height: auto;
+                overflow: hidden;
+                }
+
+                .iconCTR {
+                width: 14.285%;
+                height: 40px;
+                background: none rgb(69, 90, 100);
+                display: block;
+                line-height: 40px;
+                float: left;
+                text-align: center;
+                cursor: pointer;
+                color: #fff;
+                }
+
+                .iconCTR:hover {
+                color: #00a8f7
+                }
+            </div>
+            <div data="js">
+                // to build custom control see html Code
+                var slider = saturn('.slider').run({
+                desktop: { // default any window and screen more than 1400px
+                centering: true, // to make items in center, default (false) type boolean;
+                margin: 3, // to set in left and right, default ('') type (string-number);
+                dotShow: false, // for show dots or hide, default (true) type boolean;
+                navShow: false, // to show arrows or hide, default (true) type boolean;
+                }
+                });
+                /////////////saturn play move///////////
+                document.querySelector('#playMove').onclick = function (e) {
+                slider.play(2000); // You can add time like 2000
+                };
+                /////////////saturn stop move///////////
+                document.querySelector('#stopMove').onclick = function (e) {
+                slider.stop();
+                };
+                /////////////saturn custom next///////////
+                document.querySelector('#customNext').onclick = function (e) {
+                slider.next();
+                };
+                /////////////saturn custom prev///////////
+                document.querySelector('#customPrev').onclick = function (e) {
+                slider.prev();
+                };
+                /////////////saturn goto item///////////
+                document.querySelector('#gotoItem').onclick = function (e) {
+                slider.goto(3);
+                };
+                /////////////saturn refresh///////////
+                document.querySelector('#refresh').onclick = function (e) {
+                slider.refresh();
+                };
+                /////////////saturn destroy///////////
+                document.querySelector('#destroy').onclick = function (e) {
+                slider.destroy();
+                };
+            </div>
+        </div>
+        <div id="effectInOut">
+            <div data="html">
+                <!-- create slider with animation -->
+                <!-- you can add lib/animate.css from github -->
+                <!-- then goto js to see how do it -->
+                <div class="slider" id="slider">
+                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Javascript-Pure 1">
+                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Loop 2">
+                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Drag(Swipe-Free) 3">
+                </div>
+            </div>
+            <div data="css">
+                /* for body */
+                body {
+                width: 100%;
+                height: 100vh;
+                }
+
+            </div>
+            <div data="js">
+                // to build slider with animation
+                // here i used lib/animate.css you can use any animation
+                // set effectIn: 'animation name'
+                // set effectOut: 'animation name'
+                saturn('.slider').run({
+                desktop: { // default any window and screen more than 1400px
+                autoPlay: true, // for move items, default (false) type boolean;
+                margin: 2, // to set in left and right, default ('') type (string-number);
+                dotShow: false, // for show dots or hide, default (true) type boolean;
+                effectOut: 'animated flipOutX', // to add effectOut for each item, default (null) type string;
+                effectIn: 'animated flipInX', // to add effectIn for each item, default (null) type string;
+                lazyLoad: true, // to make img in slider lazy load, default (false) type boolean;
+                }
+                });
+            </div>
+        </div>
+        <div id="effectItems">
+            <div data="html">
+                <!-- create slider with custom effect on (prev-active-next) -->
+                <!-- goto css to see how do it -->
+                <div class="slider" id="slider">
+                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Javascript-Pure 1">
+                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Loop 2">
+                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Drag(Swipe-Free) 3">
+                </div>
+            </div>
+            <div data="css">
+                /* for body */
+                body {
+                width: 100%;
+                height: 100vh;
+                }
+
+                /* to control prev-item you can use this class */
+                .saturn-item.prev-item {
+                transform: perspective(500px) rotateY(-20deg) scale(0.75);
+                }
+
+                /* to control active you can use this class */
+                .saturn-item.active {
+                transform: perspective(500px) scale(1.1);
+                }
+
+                /* to control next-item you can use this class */
+                .saturn-item.next-item {
+                transform: perspective(500px) rotateY(20deg) scale(0.75);
+                }
+            </div>
+            <div data="js">
+                // to build slider with effect 3D on items (prev-active-next)
+                // saturn give you class for (prev-active-next)
+                // set centering: true to show effect
+                // goto css to see
+                saturn('.slider').run({
+                desktop: { // default any window and screen more than 1400px
+                active: 1, // to Show a specific items on the page, default (2) type number;
+                centering: true, // to make items in center, default (false) type boolean;
+                autoPlay: true, // for move items, default (false) type boolean;
+                moveType: 'linear', // to set transition-timing-function, default ('ease') type string;
+                margin: 2, // to set in left and right, default ('') type (string-number);
+                dotShow: false, // for show dots or hide, default (true) type boolean;
+                lazyLoad: true, // to make img in slider lazy load, default (false) type boolean;
+                }
+                });
+            </div>
+        </div>
+        <div id="responsive">
+            <div data="html">
+                <!-- create slider responsiveness with all devices -->
+                <!-- goto js to see how do it -->
+                <div class="slider" id="slider">
+                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Javascript-Pure 1">
+                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Loop 2">
+                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Drag(Swipe-Free) 3">
+                </div>
+            </div>
+            <div data="css">
+                /* for body */
+                body {
+                width: 100%;
+                height: 100vh;
+                }
+            </div>
+            <div data="js">
+                // to build slider responsiveness with all devices
+                // to make the response dependent on a specific element
+                // set responsiveBase: '.slider'
+                saturn('.slider').run({
+                // in desktop you can add any option
+                // Other unused options. They are used from the default
+                desktop: { // default any window and screen more than 1400px
+                responsiveBase: '.slider', // Responsiveness depends on, default (window) type node/string;
+                active: 1, // to Show a specific items on the page, default (2) type number;
+                centering: true, // to make items in center, default (false) type boolean;
+                margin: 2, // to set in left and right, default ('') type (string-number);
+                dotShow: false, // for show dots or hide, default (true) type boolean;
+                lazyLoad: true, // to make img in slider lazy load, default (false) type boolean;
+                },
+                // in laptop you can add any option
+                // Other unused options. They are used from the desktop
+                laptop: { // for screen less than 1400px
+                autoPlay: true, // for move items, default (false) type boolean;
+                active: 2, // to Show a specific items on the page, default (2) type number;
+                mouseWheel: false, // to move slider when mouseWheel is run, default (false) type boolean;
+                }
+                // Same system with phone and tablet
+                });
+            </div>
+        </div>
+        <div id="loopCenter">
+            <div data="html">
+                <!-- create slider with set item in center and infinite loop -->
+                <!-- goto js to see how do it -->
+                <div class="slider" id="slider">
+                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Javascript-Pure 1">
+                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Loop 2">
+                    <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Drag(Swipe-Free) 3">
+                </div>
+            </div>
+            <div data="css">
+                /* for body */
+                body {
+                width: 100%;
+                height: 100vh;
+                }
+            </div>
+            <div data="js">
+                // to build slider with active items in center
+                // and infinite loop
+                // set centering: true
+                // set loop: true when set false the slider will not be infinite
+                saturn('.slider').run({
+                desktop: { // default any window and screen more than 1400px
+                loop: true, // to make it infinite or not, default (true) type boolean;
+                centering: true, // to make items in center, default (false) type boolean;
+                margin: 2, // to set in left and right, default ('') type (string-number);
+                dotShow: false, // for show dots or hide, default (true) type boolean;
+                lazyLoad: true, // to make img in slider lazy load, default (false) type boolean;
+                },
+                phone: {
+                active: 1, // to Show a specific items on the page, default (2) type number;
+                }
+                });
+            </div>
+        </div>
+        <div id="autoplay">
+            <div data="html">
+                <!-- create slider with Auto play -->
+                <!-- goto js to see how do it -->
+                <div class="slider" id="slider">
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Javascript-Pure 1">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Loop 2">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Drag(Swipe-Free) 3">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Responsive 4">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Lazy-Load 5">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Animation 6">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Easy-Setup 7">
+                    </div>
+                </div>
+            </div>
+            <div data="css">
+                /* for body */
+                body {
+                width: 100%;
+                height: 100vh;
+                }
+            </div>
+            <div data="js">
+                // to build slider with Auto play
+                // set autoPlay: true
+                // set wiatTime: 3000 // or any Time
+                // set moveSpeed: 700 // or any number
+                // set moveType: 'ease-in-out' // or any property
+                // set pauseOnHover: true // or as you like
+                saturn('.slider').run({
+                desktop: { // default any window and screen more than 1400px
+                autoPlay: true, // for move items, default (false) type boolean;
+                pauseOnHover: true, // to pause move when mouse is over, default (false) type boolean;
+                moveSpeed: 700, // to set transition-duration, default (250) type number;
+                moveType: 'ease-in-out', // to set transition-timing-function, default ('ease') type string;
+                wiatTime: 3000, // to make slider wiat after time end, default (2500) type number;
+                loop: false, // to make it infinite or not, default (true) type boolean;
+                margin: 2, // to set in left and right, default ('') type (string-number);
+                lazyLoad: true, // to make img in slider lazy load, default (false) type boolean;
+                },
+                phone: {
+                active: 1, // to Show a specific items on the page, default (2) type number;
+                }
+                });
+            </div>
+        </div>
+        <div id="autoheight">
+            <div data="html">
+                <!-- create slider with Auto play -->
+                <!-- goto js to see how do it -->
+                <div class="slider" id="slider">
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x350/03a9f4/fff?text=Javascript-Pure 1">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x650/03a9f4/fff?text=Loop 2">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x500/03a9f4/fff?text=Drag(Swipe-Free) 3">
+                    </div>
+                </div>
+            </div>
+            <div data="css">
+                /* for body */
+                body {
+                width: 100%;
+                height: 100vh;
+                }
+            </div>
+            <div data="js">
+                // to build slider with Auto height
+                // set autoHeight: true
+                saturn('.slider').run({
+                desktop: { // default any window and screen more than 1400px
+                autoHeight: true, // to make slider auto height, default (true) type boolean;
+                margin: 2, // to set in left and right, default ('') type (string-number);
+                lazyLoad: true, // to make img in slider lazy load, default (false) type boolean;
+                },
+                phone: {
+                active: 1, // to Show a specific items on the page, default (2) type number;
+                }
+                });
+            </div>
+        </div>
+        <div id="dirMoveTo">
+            <div data="html">
+                <!-- create slider with specific directions -->
+                <!-- goto js to see how do it -->
+                <div class="slider" id="slider">
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Javascript-Pure 1">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Loop 2">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Drag(Swipe-Free) 3">
+                    </div>
+                </div>
+            </div>
+            <div data="css">
+                /* for body */
+                body {
+                width: 100%;
+                height: 100vh;
+                }
+            </div>
+            <div data="js">
+                // to build slider with Auto play
+                // to make the Slider direction right
+                // set dir: 'rtl' or 'ltr'
+                // to make the slider move right
+                // set moveTo: 'right' // or 'left'
+                saturn('.slider').run({
+                desktop: { // default any window and screen more than 1400px
+                dir: 'rtl', // for build directions, default ('ltr') type string;
+                moveTo: 'right', // for move directions, default ('left') type string;
+                autoPlay: true, // for move items, default (false) type boolean;
+                pauseOnHover: true, // to pause move when mouse is over, default (false) type boolean;
+                moveSpeed: 700, // to set transition-duration, default (250) type number;
+                margin: 2, // to set in left and right, default ('') type (string-number);
+                lazyLoad: true, // to make img in slider lazy load, default (false) type boolean;
+                },
+                phone: {
+                active: 1, // to Show a specific items on the page, default (2) type number;
+                }
+                });
+            </div>
+        </div>
+        <div id="dragScroll">
+            <div data="html">
+                <!-- create slider with event drag and scroll -->
+                <!-- goto js to see how do it -->
+                <div class="slider" id="slider">
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Javascript-Pure 1">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Loop 2">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Drag(Swipe-Free) 3">
+                    </div>
+                </div>
+            </div>
+            <div data="css">
+                /* for body */
+                body {
+                width: 100%;
+                height: 100vh;
+                }
+            </div>
+            <div data="js">
+                // to build slider with dragger and mouseWheel
+                // set dragger: true
+                // set mouseWheel: true
+                // to make type of drag (swipe or free) set dragType: 'swipe'
+                // to disactive see in phone
+                saturn('.slider').run({
+                desktop: { // default any window and screen more than 1400px
+                dragger: true, // to set active drag or not, default (true) type boolean;
+                mouseWheel: true, // to move slider when mouseWheel is run, default (false) type boolean;
+                dragType: 'swipe', // for type of drag (swipe-free), default ('free') type string;
+                margin: 2, // to set in left and right, default ('') type (string-number);
+                lazyLoad: true, // to make img in slider lazy load, default (false) type boolean;
+                },
+                phone: {
+                // now no drag on phone
+                dragger: false, // to set active drag or not, default (true) type boolean;
+                active: 1, // to Show a specific items on the page, default (2) type number;
+                }
+                });
+            </div>
+        </div>
+        <div id="moveAfter">
+            <div data="html">
+                <!-- create slider with no change items after transition end -->
+                <!-- goto js to see how do it -->
+                <div class="slider" id="slider">
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Javascript-Pure 1">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Loop 2">
+                    </div>
+                    <div>
+                        <img saturn-lazy="http://placehold.it/800x550/03a9f4/fff?text=Drag(Swipe-Free) 3">
+                    </div>
+                </div>
+            </div>
+            <div data="css">
+                /* for body */
+                body {
+                width: 100%;
+                height: 100vh;
+                }
+            </div>
+            <div data="js">
+                // to build slider with disactive after movement ended
+                // set dragger: true
+                // set mouseWheel: true
+                // to make type of drag (swipe or free) set dragType: 'swipe'
+                // to disactive see in phone
+                saturn('.slider').run({
+                desktop: { // default any window and screen more than 1400px
+                moveAfterTransition: true, // slider not move after transition end, default (false) type boolean;
+                moveSpeed: 1500, // to set transition-duration, default (250) type number;
+                dragger: false, // to set active drag or not, default (true) type boolean;
+                mouseWheel: true, // to move slider when mouseWheel is run, default (false) type boolean;
+                margin: 2, // to set in left and right, default ('') type (string-number);
+                lazyLoad: true, // to make img in slider lazy load, default (false) type boolean;
+                },
+                phone: {
+                active: 1, // to Show a specific items on the page, default (2) type number;
+                }
+                });
+            </div>
+        </div>
+    </div>
+
+    <!-- for main Control -->
     <script>
-        saturn('.elemtest').run({
-            desktop: {
-                moveTo: 'left',
-                dotShow: true,
-                dotEach: false,
-                autoPlay: true,
-                active: 3,
-                centering: true,
-                dragger: true,
-                starter: 1,
-                navShow: true,
-                navPrev: '<i class="fa fa-angle-left"></i>',
-                navNext: '<i class="fa fa-angle-right"></i>',
-                margin: 4,
-                moveSpeed: 1500,
-                refreshRate: 100,
-                wiatTime: 3000,
-                moveType: 'ease',
-                autoHeight: true,
-                pauseOnHover: true,
-                lazyLoad: true
-            },
-            laptop: {
-                active: 3,
-            },
-            tablet: {
-                moveAfterAnimation: true,
-                active: 2,
-            },
-            phone: {
-                moveAfterAnimation: true,
-                active: 1,
+        $('.outerIconsLang').on('click', function () {
+            $('.innerEditorLang').removeClass('active');
+            $('.outerIconsLang').removeClass('active');
+            $($(this).addClass('active').attr('data-id')).addClass('active');
+            setTimeout(function () { htmlCode.resize(true); cssCode.resize(true); jsCode.resize(true) }, 1);
+        });
+        $('#menu-bar').on('click', function () {
+            $('#drobdown-opt').slideToggle()
+        });
+        $('.innerOptions').on('click', function () {
+            if ($(this).is('.active')) {
+                if ($('.extendWidthRes').width() <= 769) $('#drobdown-opt').slideUp();
+                return;
+            }
+            $('#ctrWindowCode').removeClass('active');
+            $('.innerOptions').removeClass('active');
+            $(this).addClass('active');
+            if ($(this).is('[data="#markD"]')) setMark(getStart);
+            else if ($(this).is('[data="#howUse1"]')) setMark(howUse1); // howUse1
+            else if ($(this).is('[data="#howUse2"]')) setMark(howUse2);
+            else {
+                setValues(this);
+                $(this).append($('#ctrWindowCode'));
+                setTimeout(function () { $('#ctrWindowCode').addClass('active') }, 100);
+            }
+            if ($('.extendWidthRes').width() <= 769) $('#drobdown-opt').slideUp();
+        });
+        $(window).on('resize', function () {
+            $('#drobdown-opt').css('display', '');
+        });
+        /////////////////////////////////////////////
+        var dragRS = false, endHight;
+        $('#resize-bar').on('mousedown touchstart', function () {
+            dragRS = true;
+        });
+        $(window).on('mousemove touchmove', function (e) {
+            if (dragRS) {
+                if (e.type == 'touchmove') endHight = e.changedTouches[0].pageY - 100;
+                else endHight = e.pageY;
+                if (endHight < 15) endHight = 5;
+                if (endHight > ($('.rightMain').height() - 15)) endHight = $('.rightMain').height();
+                $('.topInRight').css('height', endHight + 'px');
+                $('.botInRight').css('height', 'calc(100% - ' + endHight + 'px)');
+                htmlCode.resize(true); cssCode.resize(true); jsCode.resize(true);
             }
         });
+        $(window).on('mouseup touchend', function () {
+            dragRS = false;
+        });
+        //////////////////////////////////////////////
+        $('#ctrWindowCode .fa').on('click', function () {
+            if ($(this).is('.fa-code')) {
+                $('.topInRight').css('height', '100%');
+                $('.botInRight').css('height', '0%');
+                htmlCode.resize(true); cssCode.resize(true); jsCode.resize(true);
+            }
+            if ($(this).is('.fa-eye')) {
+                $('.topInRight').css('height', '0%');
+                $('.botInRight').css('height', '100%');
+                htmlCode.resize(true); cssCode.resize(true); jsCode.resize(true);
+            }
+            if ($(this).is('.fa-refresh')) {
+                $('.topInRight').css('height', '50%');
+                $('.botInRight').css('height', '50%');
+                htmlCode.resize(true); cssCode.resize(true); jsCode.resize(true);
+                setValues('.innerOptions.active');
+            }
+        });
+    </script>
+    <!--  -->
+    <script>
+        ////////////////////////////////////////////////
+        var beautify = ace.require("ace/ext/beautify");
+        var Range = ace.require('ace/range').Range;
+        ace.require("ace/ext/emmet");
+        ////////////////////////////////////////////////
+        var markDown = ace.edit("markDown");
+        markDown.setTheme("ace/theme/tomorrow_night");
+        markDown.setShowPrintMargin(false);
+        markDown.session.setMode("ace/mode/markdown");
+        markDown.setWrapBehavioursEnabled(false);
+        markDown.setOptions({
+            fontSize: "14px",
+            tabSize: 4,
+            cursorStyle: 'smooth',
+            indentedSoftWrap: true,
+            wrap: true,
+            readOnly: true,
+            showLineNumbers: false,
+            showGutter: false,
+            "highlightActiveLine": false
+        });
+        ///////////////////////////////////////
+        var htmlCode = ace.edit("htmlCode");
+        htmlCode.setTheme("ace/theme/tomorrow_night");
+        htmlCode.setShowPrintMargin(false);
+        htmlCode.session.setMode("ace/mode/html");
+        htmlCode.setWrapBehavioursEnabled(false);
+        htmlCode.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableEmmet: true,
+            enableLiveAutocompletion: true,
+            fontSize: "14px",
+            tabSize: 4,
+            cursorStyle: 'smooth',
+            wrap: true
+        });
+        ///////////////////////////////////////
+        var cssCode = ace.edit("cssCode");
+        cssCode.setTheme("ace/theme/tomorrow_night");
+        cssCode.setShowPrintMargin(false);
+        cssCode.session.setMode("ace/mode/css");
+        cssCode.setWrapBehavioursEnabled(false);
+        cssCode.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableEmmet: true,
+            enableLiveAutocompletion: true,
+            fontSize: "14px",
+            tabSize: 4,
+            cursorStyle: 'smooth',
+            indentedSoftWrap: true,
+            wrap: true
+        });
+        ///////////////////////////////////////
+        var jsCode = ace.edit("jsCode");
+        jsCode.setTheme("ace/theme/tomorrow_night");
+        jsCode.setShowPrintMargin(false);
+        jsCode.session.setMode("ace/mode/javascript");
+        jsCode.setWrapBehavioursEnabled(false);
+        jsCode.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableEmmet: true,
+            enableLiveAutocompletion: true,
+            fontSize: "14px",
+            tabSize: 4,
+            cursorStyle: 'smooth',
+            indentedSoftWrap: true,
+            wrap: true
+        });
+        ///////////////////////////////////////
+
+        ///////////////////////////////////////
+        window.onload = function () {
+            setValues('.innerOptions.active');
+        }
+        ////////////////////////////////////////////////
+        function setValue(editor, value) {
+            editor.setValue(value)
+            setTimeout(function () {
+                beautify.beautify(editor.session);
+                runCode();
+                //editor.clearSelection();
+            }, 100);
+        }
+        function setValues(active) {
+            $('.markDown').hide();
+            var source = $(active).attr('data');
+            setValue(htmlCode, $(source + ' [data="html"]').html());
+            setValue(cssCode, $(source + ' [data="css"]').html());
+            setValue(jsCode, $(source + ' [data="js"]').html());
+        }
+        var repeateText = '# --------------------------------\n# Saturn.js v1.0.1\n' +
+            '# --------------------------------\n# Supported for all devices إن شاء الله\n' +
+            '# --------------------------------\n# Javascript Pure Extends ES6\n';
+        var getStart = repeateText +
+
+            '# Installation\n\n' +
+
+            '* Example\n' +
+
+            '* call the script from your file like\n\n' +
+
+            '```html\n' +
+            '<script src="yourPath/saturn.min.js"><\/script>\n```\n' +
+
+            'or call the script from cdn, like\n\n' +
+
+            '```html\n' +
+            '<script src="https://devahmad7.github.io/saturn/saturn.min.js"><\/script>\n```\n' +
+
+            '# Usage\n' +
+
+            '- create html tags like this\n' +
+            '```html\n' +
+            '<div class="slider">\n' +
+            '    <img src="img-1">\n' +
+            '    <img src="img-2">\n' +
+            '    <img src="img-3">\n' +
+            '</div>\n```\n' +
+
+            '# then create script\n..........................\n';
+        var howUse1 = repeateText + '# how to use \n\n ```js\n' +
+            'saturn(".slider").run({\n--- desktop: {\n------ write options\n--- },\n' +
+            '--- tablet: {\n------ write options\n--- },\n' +
+            '--- phone: {\n------ write options\n--- },\n' +
+            '}).laptop({\n--- write options\n});\n```';
+        var howUse2 = repeateText + '# how to use \n\n ```js\n' +
+            'var slider = saturn(".slider").run(); // The slider has been set up. Default options\n\n' +
+            '// now use a variable slider to control it\n\n' +
+            'slider.laptop({ write options })\n\n' +
+            '.desktop({ write options });\n\n' +
+            'slider.destroy(); // to destroy slider \n\n' +
+            'slider.next(); // goto next item \n\n' +
+            'slider.prev(); // goto previous item \n\n' +
+            'slider.refresh().stop().play(); // to rebuilding slider, stop movement, play movement \n\n' +
+            'slider.goto(3); // goto the third item \n' +
+            '```';
+        function setMark(active) {
+            $('.markDown').show();
+            setValue(markDown, active);
+            markDown.resize(true);
+        }
+        ////////////////////////////////////////////////
+        htmlCode.on('change', function (e) {
+            runCode();
+        });
+        cssCode.on('change', function (e) {
+            runCode();
+        });
+        jsCode.on('change', function (e) {
+            runCode();
+        });
+        //////////////////////////////////////////////////
+        function runCode() {
+            window.clearTimeout(setter);
+            var setter = setTimeout(function () {
+                var html = htmlCode.getValue();
+                var styleContent = '* {\npadding: 0px;\nmargin: 0px;\nbox-sizing: border-box;\noutline: none;\nborder: 0px;\ntext-decoration: none;' +
+                    '\n-webkit-touch-callout: none;\n-webkit-user-select: none;\n-khtml-user-select: none;\n-moz-user-select: none;\n -o-user-select: none;\n' +
+                    'user-select: none;\nappearance: none; \n-webkit-appearance: none;\n-webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n' +
+                    '-moz-tap-highlight-color: rgba(0, 0, 0, 0);\n-o-tap-highlight-color: rgba(0, 0, 0, 0);\n}';
+                var style = '<style>' + styleContent + '<\/style>';
+                var css = '<style>' + cssCode.getValue() + '<\/style>';
+                var saturnJs = '<script src="' + window.location.origin + '/saturn.min.js"><\/script>';
+                var animate = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">';
+                var js = '<script>' + jsCode.getValue() + '<\/script>';
+                var meta = '<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">';
+                var fontAwesome = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">';
+                var head = meta + fontAwesome + style + animate + saturnJs + css;
+                var body = html + js;
+                var end = '<html><head>' + head + '<\/head>\n<body>' + body + '<\/body>\n<\/html>';
+                var blob = new Blob([end], { type: "text/html" });
+                var url = URL.createObjectURL(blob);
+                $('#iframePreview').attr('src', url);
+            }, 2000);
+        }
     </script>
 </body>
 
