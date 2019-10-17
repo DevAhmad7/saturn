@@ -3,14 +3,13 @@
  * @name Saturn.js
  * @author Dev Ahmad Hasan
  * @version 1.0.1 2019-10-10
- * @update 2019-10-13
+ * @update 2019-10-17
  * @copyright (c) 2019-2020 Saturn
  * @license MIT-License-(MIT)
  * @website https://devahmad7.github.io/saturn/
  * @todo Updates coming soon
  * //////////////////////////
 **/
-
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -130,6 +129,18 @@ var Getter = function () {
                 return this.norm[0].getAttribute(x);
             }
         }
+    }, {
+        key: 'removeAttr',
+        value: function removeAttr(x) {
+            var _this3 = this;
+
+            x.split(' ').forEach(function (c) {
+                _this3.norm.forEach(function (e) {
+                    e.removeAttribute(c);
+                });
+            });
+            return this;
+        }
         ///////////////////////////////////
 
     }, {
@@ -145,13 +156,13 @@ var Getter = function () {
     }, {
         key: 'on',
         value: function on(x, call) {
-            var _this3 = this;
+            var _this4 = this;
 
             var cond = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 
             x.split(' ').forEach(function (e) {
-                _this3.norm.forEach(function (z) {
-                    if (document.addEventListener) z.addEventListener(e, call, cond);else if (document.attachEvent) z.attachEvent('on' + e, call, cond);
+                _this4.norm.forEach(function (z) {
+                    if (document.addEventListener) z.addEventListener(e, call, cond); else if (document.attachEvent) z.attachEvent('on' + e, call, cond);
                 });
             });
             return this;
@@ -215,7 +226,7 @@ var $dev = function $dev(data) {
 
 var SATURN = function () {
     function SATURN(elem, data) {
-        var _this4 = this;
+        var _this5 = this;
 
         _classCallCheck(this, SATURN);
 
@@ -241,13 +252,17 @@ var SATURN = function () {
             dragType: 'free',
             dragger: true,
             navigationContainer: false,
-            moveAfterAnimation: false,
+            moveAfterTransition: false,
             wiatTime: 2500,
             pauseOnHover: false,
-            effect: null,
-            onDrag: function onDrag() {},
-            onChange: function onChange() {},
-            lazyLoad: false
+            effectIn: null,
+            effectOut: null,
+            onDrag: function onDrag() { },
+            onChange: function onChange() { },
+            lazyLoad: false,
+            mouseWheel: false,
+            dotCustom: false,
+            responsiveBase: window
         };
         // set id for element
         this.id = elem == undefined ? '' : elem;
@@ -256,10 +271,10 @@ var SATURN = function () {
         this.Encapsulation = [];
         this.original = [];
         this.originalArr = [].concat(_toConsumableArray(this.mainElem.norm[0].children)).forEach(function (data) {
-            _this4.original.push(data.cloneNode(true));
+            _this5.original.push(data.cloneNode(true));
         });
         this.items = [].concat(_toConsumableArray(this.mainElem.norm[0].children)).forEach(function (data) {
-            _this4.Encapsulation.push($dev('<div>').addClass('saturn-item').append(data).norm[0]);
+            _this5.Encapsulation.push($dev('<div>').addClass('saturn-item').append(data).norm[0]);
         });
         this.items = $dev(this.Encapsulation);
         this.mainLength = this.items.length;
@@ -276,10 +291,14 @@ var SATURN = function () {
             } else {
                 return {
                     navigationContainer: opt.navigationContainer == undefined ? std.navigationContainer : opt.navigationContainer,
-                    moveAfterAnimation: opt.moveAfterAnimation == undefined ? std.moveAfterAnimation : opt.moveAfterAnimation,
+                    moveAfterTransition: opt.moveAfterTransition == undefined ? std.moveAfterTransition : opt.moveAfterTransition,
                     pauseOnHover: opt.pauseOnHover == undefined ? std.pauseOnHover : opt.pauseOnHover,
+                    responsiveBase: opt.responsiveBase == undefined ? std.responsiveBase : opt.responsiveBase,
+                    mouseWheel: opt.mouseWheel == undefined ? std.mouseWheel : opt.mouseWheel,
                     lazyLoad: opt.lazyLoad == undefined ? std.lazyLoad : opt.lazyLoad,
-                    effect: opt.effect == undefined ? std.effect : opt.effect,
+                    dotCustom: opt.dotCustom == undefined ? std.dotCustom : opt.dotCustom,
+                    effectIn: opt.effectIn == undefined ? std.effectIn : opt.effectIn,
+                    effectOut: opt.effectOut == undefined ? std.effectOut : opt.effectOut,
                     wiatTime: opt.wiatTime == undefined ? std.wiatTime : opt.wiatTime,
                     active: opt.active == undefined ? std.active : opt.active,
                     starter: opt.starter == undefined ? std.starter : opt.starter,
@@ -309,7 +328,7 @@ var SATURN = function () {
         this.laptop = this.setData(data.laptop, this.desktop);
         this.tablet = this.setData(data.tablet, this.desktop);
         this.phone = this.setData(data.phone, this.desktop);
-        this.notMouseOver = false;
+        this.options = this.desktop;
         /////////////////////////////////////////
         this.prefix = function () {
             var express = function express(regexp) {
@@ -336,8 +355,8 @@ var SATURN = function () {
         this.build = '';
         // set style as template
         if ($dev('#saturn-style').norm[0] == undefined) {
-            var styleoriginal = '.saturn {overflow: hidden;} .saturn-container, .saturn-center {width: 100%;display: flex;margin: auto;position: relative;}\n            .saturn-items {display: flex;position: relative;} .saturn-item {position: relative;} .saturn-item img {display: flex;width: 100%;}\n            .saturn-item .saturn-thumbs {z-index: 999;width: auto;height: auto;position: absolute;left: 50%;top: 50%;' + this.prefix() + 'transform: translate(-50%, -50%);}\n            .saturn-grab {cursor: grab;cursor: ' + this.prefix() + 'grab;}\n            .saturn-grabbing {cursor: grabbing;cursor: ' + this.prefix() + 'grabbing;}\n            /* if saturn-controller false */\n            .saturn .saturn-dots {position: absolute;display: flex;left: 50%;bottom: 10px;' + this.prefix() + 'transform: translateX(-50%);}\n            .saturn .saturn-dot {display: inline-block;margin: 0px 2px;width: 11px;height: 11px;border: 1px solid #ffffff;border-radius: 50%;cursor: pointer}\n            .saturn .saturn-dot.active, .saturn .saturn-dot:hover {background-color: #ffffff;}\n            .saturn .saturn-prev, .saturn .saturn-next {position: absolute;cursor: pointer;height: 30px;line-height: 30px;\n                font-size: 15px;text-align: center;width: 50px;color: #ffffff;top: 50%;' + this.prefix() + 'transform: translateY(-50%)}\n            .saturn .saturn-prev {left: 0px;} .saturn .saturn-next {right: 0px;}\n            /* if saturn-controller true */\n            .saturn-controller {position: absolute;width: 100%;bottom: 0px; border-radius: 2px;background-color: rgba(0, 0, 0, .2);height: 30px;}\n            .saturn-controller .saturn-dots {bottom: auto;top: 50%;' + this.prefix() + 'transform: translate(-50%, -50%);}';
-            $dev('html head meta').norm[0].parentNode.insertBefore($dev('<style>').attr('id', 'saturn-style').html(styleoriginal).norm[0], $dev('html head meta').norm[0].nextSibling);
+            var styleoriginal = '.saturn {overflow: hidden;} .saturn-container, .saturn-center {width: 100%;display: flex;margin: auto;position: relative;}\n            .saturn-items {display: flex;position: relative;} .saturn-item {position: relative;} .saturn-item img {display: flex;width: 100%;}\n            .saturn-item .saturn-thumbs {z-index: 999;width: auto;height: auto;position: absolute;left: 50%;top: 50%;' + this.prefix() + 'transform: translate(-50%, -50%);}\n            .saturn-grab {cursor: grab;cursor: ' + this.prefix() + 'grab;}\n            .saturn-grabbing {cursor: grabbing;cursor: ' + this.prefix() + 'grabbing;}\n            /* if saturn-controller false */\n            .saturn .saturn-dots {position: absolute;display: flex;left: 50%;bottom: 10px;' + this.prefix() + 'transform: translateX(-50%);}\n            .saturn .saturn-dot {display: inline-block;margin: 0px 2px;width: 11px;height: 11px;border: 1px solid #ffffff;border-radius: 50%;cursor: pointer}\n            .saturn .saturn-dot.active, .saturn .saturn-dot:hover {background-color: #ffffff;}\n            .saturn .saturn-prev, .saturn .saturn-next {position: absolute;cursor: pointer;height: 30px;line-height: 30px;\n                font-size: 15px;text-align: center;width: 50px;color: #ffffff;top: 50%;' + this.prefix() + 'transform: translateY(-50%)}\n            .saturn .saturn-prev {left: 0px;} .saturn .saturn-next {right: 0px;} .saturn-hide {display: none}\n            /* if saturn-controller true */\n            .saturn-controller {position: absolute;width: 100%;bottom: 0px; border-radius: 2px;background-color: rgba(0, 0, 0, .2);height: 30px;}\n            .saturn-controller .saturn-dots {bottom: auto;top: 50%;' + this.prefix() + 'transform: translate(-50%, -50%);}';
+            $dev('html head').norm[0].prepend($dev('<style>').attr('id', 'saturn-style').html(styleoriginal).norm[0]);
         }
         /////////////////////////////////////////
         this.setup().observer().buildItems().resize().dragment().ctrAutoPlay();
@@ -346,16 +365,24 @@ var SATURN = function () {
     _createClass(SATURN, [{
         key: 'setup',
         value: function setup() {
-            var _this5 = this;
+            var _this6 = this;
 
             this.mainElem.html('').append(this.container.norm[0]).css('position', 'relative');
             this.container.append(this.centering.norm[0]);
             this.centering.append(this.outerItems.norm[0]);
-            this.outerItems.on("transitionstart", function (e) {
-                _this5.transMoving = true;
-            }).on("transitionend", function (e) {
-                _this5.transMoving = false;
+            this.outerItems.on('transitionstart', function (e) {
+                _this6.transMoving = true;
+                setTimeout(function () {
+                    _this6.transMoving = false;
+                }, _this6.options.moveSpeed);
             });
+            /////////////////////////////////////////
+            this.outerDotCustom = $dev($dev(document).find('[dot-for="' + this.mainElem.norm[0].id + '"]'));
+            if (this.outerDotCustom.norm[0] != undefined) {
+                this.dotsCustom = this.outerDotCustom.norm[0].children;
+                this.dotsCustom.length == this.mainLength ? this.buildCustom = true : this.buildCustom = false;
+            }
+            /////////////////////////////////////////
             return this;
         }
         /////////////////////////////////////////////
@@ -363,9 +390,9 @@ var SATURN = function () {
     }, {
         key: 'observer',
         value: function observer() {
-            this.windowWidth = this.detectPhone() ? window.screen.width : window.innerWidth;
+            this.windowWidth = this.containment();
             /////////////////////////////////////////
-            if (this.windowWidth > 1300) this.options = this.desktop, this.building = 'desk';else if (this.windowWidth < 1300 && this.windowWidth > 1000) this.options = this.laptop, this.building = 'lap';else if (this.windowWidth < 1000 && this.windowWidth > 600) this.options = this.tablet, this.building = 'tab';else if (this.windowWidth < 600 && this.windowWidth > 100) this.options = this.phone, this.building = 'pho';
+            if (this.windowWidth > 1400) this.options = this.desktop, this.building = 'desk'; else if (this.windowWidth < 1400 && this.windowWidth > 1000) this.options = this.laptop, this.building = 'lap'; else if (this.windowWidth < 1000 && this.windowWidth > 600) this.options = this.tablet, this.building = 'tab'; else if (this.windowWidth < 600 && this.windowWidth > 100) this.options = this.phone, this.building = 'pho';
             /////////////////////////////////////////
             return this;
         }
@@ -374,41 +401,41 @@ var SATURN = function () {
     }, {
         key: 'handlePrev',
         value: function handlePrev(e) {
-            var _this6 = this;
+            var _this7 = this;
 
-            if (this.transMoving && this.options.moveAfterAnimation) return this;
+            if (this.transMoving && this.options.moveAfterTransition) return this;
             if (this.options.loop) {
                 this.startPoint--;
                 if (this.startPoint < this.started) {
                     this.startPoint = this.ended - 1;
-                    this.moveJust(this.options.dir * (this.startPoint * this.oneWidth), '0ms');
+                    this.moveJust(this.direction * (this.startPoint * this.oneWidth), '0ms');
                     this.startPoint--;
                 }
             } else {
-                if (this.startPoint > 0) this.startPoint--;else this.repeateAutoPlay = true;
+                if (this.startPoint > 0) this.startPoint--; else this.repeateAutoPlay = true;
             }
             setTimeout(function () {
-                _this6.movement(_this6.options.dir * (_this6.startPoint * _this6.oneWidth), _this6.transition);
+                _this7.moveForClick(_this7.direction * (_this7.startPoint * _this7.oneWidth), _this7.transitionClick);
             }, 70);
         }
     }, {
         key: 'handleNext',
         value: function handleNext(e) {
-            var _this7 = this;
+            var _this8 = this;
 
-            if (this.transMoving && this.options.moveAfterAnimation) return this;
+            if (this.transMoving && this.options.moveAfterTransition) return this;
             if (this.options.loop) {
                 this.startPoint++;
                 if (this.startPoint >= this.ended) {
                     this.startPoint = this.started;
-                    this.moveJust(this.options.dir * (this.startPoint * this.oneWidth), '0ms');
+                    this.moveJust(this.direction * (this.startPoint * this.oneWidth), '0ms');
                     this.startPoint++;
                 }
             } else {
-                if (this.startPoint < this.ended) this.startPoint++;else this.repeateAutoPlay = true;
+                if (this.startPoint < this.ended) this.startPoint++; else this.repeateAutoPlay = true;
             }
             setTimeout(function () {
-                _this7.movement(_this7.options.dir * (_this7.startPoint * _this7.oneWidth), _this7.transition);
+                _this8.moveForClick(_this8.direction * (_this8.startPoint * _this8.oneWidth), _this8.transitionClick);
             }, 70);
         }
         ////////////////////////////////////////////
@@ -416,7 +443,7 @@ var SATURN = function () {
     }, {
         key: 'buildArrows',
         value: function buildArrows() {
-            var _this8 = this;
+            var _this9 = this;
 
             if ($dev(this.mainElem.find('.saturn-prev')).norm[0] != undefined) {
                 $dev(this.mainElem.find('.saturn-prev')).norm[0].remove();
@@ -426,11 +453,11 @@ var SATURN = function () {
                 $dev(this.mainElem.find('.saturn-next')).norm[0].remove();
             }
 
-            var navPrev = $dev('<div>').addClass('saturn-prev').html(this.options.navPrev).on('mouseup touchstart', function (e) {
-                _this8.handlePrev(e);
+            var navPrev = $dev('<div>').addClass('saturn-prev').html(this.options.navPrev).on('click', function (e) {
+                _this9.handlePrev(e);
             }).norm[0];
             var navNext = $dev('<div>').addClass('saturn-next').html(this.options.navNext).on('click', function (e) {
-                _this8.handleNext(e);
+                _this9.handleNext(e);
             }).norm[0];
             if (this.options.navigationContainer) {
                 this.controller.append(navPrev).append(navNext);
@@ -442,42 +469,65 @@ var SATURN = function () {
 
     }, {
         key: 'buildDots',
-        value: function buildDots() {
-            if (this.options.navigationContainer) {
-                this.controller.append(this.outerDots.html('').norm[0]);
-            } else {
-                this.mainElem.append(this.outerDots.html('').norm[0]);
+        value: function buildDots(dots, custom) {
+            if (dots) {
+                if (this.options.navigationContainer) {
+                    this.controller.append(this.outerDots.html('').norm[0]);
+                } else {
+                    this.mainElem.append(this.outerDots.html('').norm[0]);
+                }
             }
+            if (custom) $dev([].concat(_toConsumableArray(this.dotsCustom))).addClass('saturn-hide');
             if (this.options.dotEach) {
                 if (this.options.loop) {
-                    for (var i = 0, index = this.cloned; index < this.mainLength + this.cloned; index++, i++) {
-                        var elem = $dev('<li>').attr("index", index).addClass('saturn-dot');
-                        this.outerDots.append(elem.norm[0]);
+                    for (var i = 0, index = this.cloned; index < this.mainLength + this.cloned; index++ , i++) {
+                        if (this.options.dotShow) {
+                            var elem = $dev('<li>').attr("index", index).addClass('saturn-dot');
+                            this.outerDots.append(elem.norm[0]);
+                        }
+                        if (this.options.dotCustom && this.buildCustom) {
+                            $dev(this.dotsCustom[i]).attr("index", index).addClass('saturn-goto').removeClass('saturn-hide');
+                        }
                         $dev(this.items.norm[i]).attr("index", index);
                     }
                 } else {
-                    for (var _i = 0; _i < this.mainLength - (this.options.active - 1); _i++) {
-                        var _elem = $dev('<li>').attr("index", _i).addClass('saturn-dot');
-                        this.outerDots.append(_elem.norm[0]);
+                    for (var _i = 0; _i < this.mainLength - (this.activate - 1); _i++) {
+                        if (this.options.dotShow) {
+                            var _elem = $dev('<li>').attr("index", _i).addClass('saturn-dot');
+                            this.outerDots.append(_elem.norm[0]);
+                        }
+                        if (this.options.dotCustom && this.buildCustom) {
+                            $dev(this.dotsCustom[_i]).attr("index", _i).addClass('saturn-goto').removeClass('saturn-hide');
+                        }
                         $dev(this.items.norm[_i]).attr("index", _i);
                     }
                 }
             } else {
                 if (this.options.loop) {
-                    for (var _i2 = 0, _index = this.cloned; _index < this.mainLength + this.cloned; _index += this.options.active, _i2 += this.options.active) {
-                        var _elem2 = $dev('<li>').attr("index", _index).addClass('saturn-dot');
-                        this.outerDots.append(_elem2.norm[0]);
+                    for (var _i2 = 0, _index = this.cloned; _index < this.mainLength + this.cloned; _index += this.activate, _i2 += this.activate) {
+                        if (this.options.dotShow) {
+                            var _elem2 = $dev('<li>').attr("index", _index).addClass('saturn-dot');
+                            this.outerDots.append(_elem2.norm[0]);
+                        }
+                        if (this.options.dotCustom && this.buildCustom) {
+                            $dev(this.dotsCustom[_i2]).attr("index", _index).addClass('saturn-goto').removeClass('saturn-hide');
+                        }
                         for (var inx = _i2; inx < _index; inx++) {
                             if (this.items.norm[inx] != undefined) $dev(this.items.norm[inx]).attr("index", _index);
                         }
                     }
                 } else {
-                    for (var _index2 = 0; _index2 < this.mainLength; _index2 += this.options.active) {
+                    for (var _index2 = 0; _index2 < this.mainLength; _index2 += this.activate) {
                         var _inx = _index2;
-                        if (_inx > this.mainLength - this.options.active) _inx = this.mainLength - this.options.active;
-                        var _elem3 = $dev('<li>').attr("index", _inx).addClass('saturn-dot');
-                        this.outerDots.append(_elem3.norm[0]);
-                        for (var _i3 = _inx; _i3 < _inx + this.options.active; _i3++) {
+                        if (_inx > this.mainLength - this.activate) _inx = this.mainLength - this.activate;
+                        if (this.options.dotShow) {
+                            var _elem3 = $dev('<li>').attr("index", _inx).addClass('saturn-dot');
+                            this.outerDots.append(_elem3.norm[0]);
+                        }
+                        if (this.options.dotCustom && this.buildCustom) {
+                            $dev(this.dotsCustom[_inx]).attr("index", _inx).addClass('saturn-goto').removeClass('saturn-hide');
+                        }
+                        for (var _i3 = _inx; _i3 < _inx + this.activate; _i3++) {
                             if (this.items.norm[_i3] != undefined) $dev(this.items.norm[_i3]).attr("index", _inx);
                         }
                     }
@@ -487,9 +537,19 @@ var SATURN = function () {
         /////////////////////////////////////////////
 
     }, {
+        key: 'handleDots',
+        value: function handleDots(data) {
+            if (this.transMoving && this.options.moveAfterTransition) return this;
+            this.startPoint = parseInt($dev(data).attr('index'));
+            if (this.startPoint > this.ended && !this.options.loop) this.startPoint = this.ended;
+            this.moveForClick(this.direction * (this.startPoint * this.oneWidth), this.transitionClick);
+        }
+        /////////////////////////////////////////////
+
+    }, {
         key: 'buildItems',
         value: function buildItems() {
-            var _this9 = this;
+            var _this10 = this;
 
             if (this.build != this.building) {
                 this.build = this.building;
@@ -504,18 +564,21 @@ var SATURN = function () {
                 }
                 /////////////////////////////////////
                 if (this.options.dir == 'ltr') {
-                    this.mainElem.css('direction', '');
-                    this.options.dir = -1;
+                    this.mainElem.css('direction', ''); this.direction = -1;
                 } else {
-                    this.mainElem.css('direction', this.options.dir);
-                    this.options.dir = 1;
+                    this.mainElem.css('direction', this.options.dir); this.direction = 1;
                 }
-                this.options.starter = this.options.starter > this.mainLength || this.options.starter <= 0 ? 1 : this.options.starter;
-                this.options.active = this.options.active > this.mainLength ? this.mainLength : this.options.active;
-                this.cloned = this.options.active > 2 ? this.options.active : 3;
+                this.starter = this.options.starter > this.mainLength || this.options.starter <= 0 ? 1 : this.options.starter;
+                this.activate = this.options.active > this.mainLength ? this.mainLength : this.options.active;
+                this.cloned = this.activate > 2 ? this.activate : 3;
                 this.cloned = this.cloned >= this.mainLength ? this.mainLength : this.cloned;
                 /////////////////////////////////////
-                this.transition = this.options.effect == null ? 'all ' + this.options.moveSpeed / 1000 + 's ' + this.options.moveType + ' 0s' : 'all ' + 0 / 1000 + 's ' + this.options.moveType + ' 0s';
+                if (this.options.effectIn != null && this.options.effectOut != null) {
+                    this.transitionClick = 'all ' + 0 / 1000 + 's ' + this.options.moveType + ' 0s';
+                } else {
+                    this.transitionClick = 'all ' + this.options.moveSpeed / 1000 + 's ' + this.options.moveType + ' 0s';
+                }
+                this.transition = 'all ' + this.options.moveSpeed / 1000 + 's ' + this.options.moveType + ' 0s';
                 /////////////////////////////////////
                 this.items.css({
                     'margin-left': '' + (typeof this.options.margin == 'number' ? this.options.margin + 'px' : this.options.margin),
@@ -544,59 +607,53 @@ var SATURN = function () {
                     this.buildArrows();
                 }
                 /////////////////////////////////////
+                if (this.options.dotShow || this.options.dotCustom) {
+                    this.buildDots(this.options.dotShow, this.options.dotCustom);
+                }
                 if (this.options.dotShow) {
-                    (function () {
-                        _this9.buildDots();
-                        var handleDots = function handleDots(data) {
-                            _this9.startPoint = parseInt($dev(data).attr('index'));
-                            if (_this9.startPoint > _this9.ended && !_this9.options.loop) _this9.startPoint = _this9.ended;
-                            _this9.movement(_this9.options.dir * (_this9.startPoint * _this9.oneWidth), _this9.transition);
-                        };
-                        $dev(_this9.outerDots.find('.saturn-dot')).each(function (data) {
-                            $dev(data).on("mousedown touchstart", function (e) {
-                                if (_this9.detectPhone() && e.type == 'touchstart') handleDots(data);
-                                if (!_this9.detectPhone() && e.type == 'mousedown') handleDots(data);
-                            });
-                        });
-                    })();
+                    $dev(this.outerDots.find('.saturn-dot')).on('click', function (e) {
+                        _this10.handleDots(e.target);
+                    });
+                }
+                if (this.options.dotCustom && this.buildCustom) {
+                    $dev([].concat(_toConsumableArray(this.dotsCustom))).on('click', function (e) {
+                        _this10.handleDots(e.target.closest('.saturn-goto'));
+                    });
                 }
                 /////////////////////////////////////
                 if (this.options.loop) {
                     var firstElement = [],
                         lastElement = [];
                     /////////////////////////////////////
-                    for (var i = 0, o = this.mainLength - this.cloned; i < this.cloned; i++, o++) {
+                    for (var i = 0, o = this.mainLength - this.cloned; i < this.cloned; i++ , o++) {
                         firstElement.push(this.items.norm[i].cloneNode(true));
                         lastElement.push(this.items.norm[o].cloneNode(true));
                     }
                     /////////////////////////////////////
                     this.newItems = $dev([].concat(lastElement, _toConsumableArray(this.items.norm), firstElement)).each(function (data, i) {
-                        if (_this9.options.lazyLoad) data.append(_this9.thumbs.norm[0].cloneNode(true));
-                        _this9.outerItems.append(data);
+                        if (_this10.options.lazyLoad) data.append(_this10.thumbs.norm[0].cloneNode(true));
+                        _this10.outerItems.append(data);
                     });
                     /////////////////////////////////////
                     this.newLength = this.newItems.length;
-                    this.startPoint = this.options.starter + (this.cloned - 1);
+                    this.startPoint = this.starter + (this.cloned - 1);
                     this.started = this.cloned - 1;
                     this.ended = this.newLength - this.cloned;
                 } else {
                     this.newItems = this.items.each(function (data) {
-                        if (_this9.options.lazyLoad) data.append(_this9.thumbs.norm[0].cloneNode(true));
-                        _this9.outerItems.append(data);
+                        if (_this10.options.lazyLoad) data.append(_this10.thumbs.norm[0].cloneNode(true));
+                        _this10.outerItems.append(data);
                     });
                     this.newLength = this.newItems.length;
-                    this.startPoint = this.options.starter - 1;
+                    this.startPoint = this.starter - 1;
                     this.started = 0;
-                    this.ended = this.newLength - this.options.active;
-                    if (this.startPoint > this.ended) this.startPoint = this.ended; //console.log(this.ended)
+                    this.ended = this.newLength - this.activate;
+                    if (this.startPoint > this.ended) this.startPoint = this.ended;
                 }
                 /////////////////////////////////////
-                this.newItems.on('animationstart', function () {
-                    _this9.transMoving = true;
-                }).on("animationend", function (e) {
-                    _this9.transMoving = false;
-                    if (!_this9.checker && _this9.options.effect != null) {
-                        _this9.newItems.removeClass(_this9.options.effect);
+                this.newItems.on('animationend', function (e) {
+                    if (_this10.options.effectIn != null) {
+                        _this10.newItems.removeClass(_this10.options.effectIn);
                     }
                 });
                 /////////////////////////////////////
@@ -612,18 +669,18 @@ var SATURN = function () {
             }
             /////////////////////////////////////////
             if (this.options.centering) {
-                this.centering.css(_defineProperty({ 'width': 'calc(100% - ' + this.container.width() / (this.options.active + 2) + 'px)' }, this.prefix() + 'transition', 'none'));
+                this.centering.css(_defineProperty({ 'width': 'calc(100% - ' + this.container.width() / (this.activate + 2) + 'px)' }, this.prefix() + 'transition', 'none'));
             } else {
                 this.centering.css(_defineProperty({ 'width': '100%' }, this.prefix() + 'transition', 'none'));
             }
             /////////////////////////////////////////
             this.mainWidth = this.centering.width();
-            this.oneWidth = parseFloat(this.mainWidth / this.options.active);
+            this.oneWidth = parseFloat(this.mainWidth / this.activate);
             /////////////////////////////////////////
             this.outerItems.width(parseFloat(this.oneWidth * this.newLength));
             this.newItems.width(this.oneWidth);
             /////////////////////////////////////////
-            this.movement(this.options.dir * (this.startPoint * this.oneWidth), '0s');
+            this.moveForDrag(this.direction * (this.startPoint * this.oneWidth), '0s', this.startPoint);
             return this;
         }
         /////////////////////////////////////////////
@@ -637,17 +694,25 @@ var SATURN = function () {
         /////////////////////////////////////////////
 
     }, {
+        key: 'containment',
+        value: function containment() {
+            if (this.options.responsiveBase == window) return this.detectPhone() ? window.screen.width : window.innerWidth; else return $dev(this.options.responsiveBase).width();
+        }
+    }, {
         key: 'resize',
         value: function resize() {
-            var _this10 = this;
+            var _this11 = this;
 
-            this.lastWidth = this.detectPhone() ? window.screen.width : window.innerWidth;
+            setTimeout(function () {
+                _this11.buildItems();
+            }, 150);
+            this.lastWidth = this.containment();
             setInterval(function () {
-                _this10.currnetWidth = _this10.detectPhone() ? window.screen.width : window.innerWidth;
-                if (_this10.lastWidth != _this10.currnetWidth) {
-                    _this10.lastWidth = _this10.currnetWidth;
-                    _this10.observer();
-                    _this10.buildItems();
+                _this11.currnetWidth = _this11.containment();
+                if (_this11.lastWidth != _this11.currnetWidth) {
+                    _this11.lastWidth = _this11.currnetWidth;
+                    _this11.observer();
+                    _this11.buildItems();
                 }
             }, this.options.refreshRate);
             return this;
@@ -655,30 +720,68 @@ var SATURN = function () {
     }, {
         key: 'refresh',
         value: function refresh() {
+            var _this12 = this;
+
             this.build = '';
             this.observer();
             this.buildItems();
+            setTimeout(function () {
+                _this12.buildItems();
+            }, 150);
+        }
+    }, {
+        key: 'gotoItem',
+        value: function gotoItem(index) {
+            if (this.transMoving && this.options.moveAfterTransition) return this;
+            index = parseInt(index) > this.mainLength || parseInt(index) <= 0 ? 1 : parseInt(index);
+            if (this.options.loop) this.startPoint = index + (this.cloned - 1); else this.startPoint = index - 1;
+            if (this.startPoint > this.ended && !this.options.loop) this.startPoint = this.ended;
+            this.moveForClick(this.direction * (this.startPoint * this.oneWidth), this.transitionClick);
         }
         ////////////////////////////////////////////
 
     }, {
-        key: 'moveJust',
-        value: function moveJust(move, speed, opt) {
+        key: 'checkAnimate',
+        value: function checkAnimate(move, speed, observer) {
+            var drag = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
             this.outerItems.css([this.prefix() + 'transition'], speed).css([this.prefix() + 'transform'], 'translateX(' + move + 'px)');
-            this.activeItems(opt, speed);
-            return this;
+            if (this.lastIndex != this.startPoint || drag) {
+                if (this.lastIndex != this.startPoint) this.options.onChange(this.newItems.norm[this.startPoint]);
+                this.lastIndex = this.startPoint;
+                if (this.options.dotShow || this.options.dotCustom) {
+                    var dotIndex = parseInt($dev(this.newItems.norm[this.startPoint]).attr('index'));
+                    if (!isNaN(dotIndex) && this.options.dotShow) {
+                        $dev(this.outerDots.find('.saturn-dot')).removeClass('active');
+                        $dev(this.outerDots.find('.saturn-dot[index="' + dotIndex + '"]')).addClass('active');
+                    }
+                    if (!isNaN(dotIndex) && this.options.dotCustom) {
+                        $dev(this.outerDotCustom.find('.saturn-goto')).removeClass('active');
+                        $dev(this.outerDotCustom.find('.saturn-goto[index="' + dotIndex + '"]')).addClass('active');
+                    }
+                }
+                this.activeItems(observer);
+            }
         }
     }, {
+        key: 'moveJust',
+        value: function moveJust(move, speed) {
+            this.outerItems.css([this.prefix() + 'transition'], speed).css([this.prefix() + 'transform'], 'translateX(' + move + 'px)');
+            this.activeItems(this.startPoint);
+            this.newItems.css([this.prefix() + 'transition'], speed);
+            return this;
+        }
+        ////////////////////////////////////////////
+
+    }, {
         key: 'activeItems',
-        value: function activeItems(index, speed) {
-            this.checker = index != undefined;
-            if (speed == '0ms' && !this.checker) this.newItems.css([this.prefix() + 'transition'], speed);else this.newItems.css([this.prefix() + 'transition'], '');
+        value: function activeItems(observer) {
+            this.newItems.css([this.prefix() + 'transition'], this.transition);
             this.newItems.removeClass('prev-item active next-item');
-            var moveto = this.checker ? index : this.startPoint;
-            for (var i = 0; i < this.options.active; i++) {
-                if (this.newItems.norm[moveto - 1] != undefined) $dev(this.newItems.norm[moveto - 1]).addClass('prev-item');
-                if (this.newItems.norm[moveto + i] != undefined) $dev(this.newItems.norm[moveto + i]).addClass('active');
-                if (this.newItems.norm[moveto + this.options.active] != undefined) $dev(this.newItems.norm[moveto + this.options.active]).addClass('next-item');
+            for (var i = 0; i < this.activate; i++) {
+                if (this.newItems.norm[observer - 1] != undefined) $dev(this.newItems.norm[observer - 1]).addClass('prev-item');
+                if (this.newItems.norm[observer + i] != undefined) $dev(this.newItems.norm[observer + i]).addClass('active');
+                if (this.newItems.norm[observer + this.activate] != undefined) $dev(this.newItems.norm[observer + this.activate]).addClass('next-item');
             }
             if (this.options.lazyLoad) {
                 $dev(this.mainElem.find('.saturn-item.active [saturn-lazy], .saturn-item.prev-item [saturn-lazy], .saturn-item.next-item [saturn-lazy]')).each(function (e) {
@@ -687,26 +790,34 @@ var SATURN = function () {
                     }
                 });
             }
-            if (!this.checker && this.options.effect != null) {
-                $dev(this.mainElem.find('.saturn-item.active')).addClass(this.options.effect);
+        }
+        ////////////////////////////////////////////
+
+    }, {
+        key: 'moveForClick',
+        value: function moveForClick(move, speed) {
+            var _this13 = this;
+
+            var observer = arguments.length <= 2 || arguments[2] === undefined ? this.startPoint : arguments[2];
+
+            if (this.options.effectOut != null && this.options.effectIn != null && this.lastIndex != this.startPoint) {
+                $dev(this.mainElem.find('.saturn-item.active')).addClass(this.options.effectOut);
+                setTimeout(function () {
+                    _this13.newItems.removeClass(_this13.options.effectOut);
+                    _this13.checkAnimate(move, speed, observer);
+                    $dev(_this13.mainElem.find('.saturn-item.active')).addClass(_this13.options.effectIn);
+                }, 350);
+            } else {
+                this.checkAnimate(move, speed, observer);
             }
+            return this;
         }
     }, {
-        key: 'movement',
-        value: function movement(move, speed, opt) {
-            if (this.transMoving && this.options.moveAfterAnimation) return this;
-            this.moveJust(move, speed, opt);
-            if (this.options.dotShow) {
-                var dotIndex = parseInt($dev(this.newItems.norm[this.startPoint]).attr('index'));
-                if (!isNaN(dotIndex)) {
-                    $dev(this.outerDots.find('.saturn-dot')).removeClass('active');
-                    $dev(this.outerDots.find('.saturn-dot[index="' + dotIndex + '"]')).addClass('active');
-                }
-            }
-            if (this.lastIndex != this.startPoint) {
-                this.lastIndex = this.startPoint;
-                this.options.onChange(this.newItems.norm[this.startPoint]);
-            }
+        key: 'moveForDrag',
+        value: function moveForDrag(move, speed) {
+            var observer = arguments.length <= 2 || arguments[2] === undefined ? this.startPoint : arguments[2];
+
+            this.checkAnimate(move, speed, observer, true);
             return this;
         }
         ////////////////////////////////////////////
@@ -714,21 +825,22 @@ var SATURN = function () {
     }, {
         key: 'playAuto',
         value: function playAuto(speed) {
-            var _this11 = this;
+            var _this14 = this;
 
             if (this.options.autoPlay && !document.hidden) {
                 this.setPlayAuto = setInterval(function () {
-                    if (_this11.options.moveTo == "left") {
-                        _this11.handleNext();
-                        if (!_this11.options.loop && _this11.repeateAutoPlay) {
-                            _this11.repeateAutoPlay = false;
-                            _this11.startPoint = _this11.started;
+                    if (_this14.drager) return _this14;
+                    if (_this14.options.moveTo == "left") {
+                        _this14.handleNext();
+                        if (!_this14.options.loop && _this14.repeateAutoPlay) {
+                            _this14.repeateAutoPlay = false;
+                            _this14.startPoint = _this14.started;
                         }
                     } else {
-                        _this11.handlePrev();
-                        if (!_this11.options.loop && _this11.repeateAutoPlay) {
-                            _this11.repeateAutoPlay = false;
-                            _this11.startPoint = _this11.ended;
+                        _this14.handlePrev();
+                        if (!_this14.options.loop && _this14.repeateAutoPlay) {
+                            _this14.repeateAutoPlay = false;
+                            _this14.startPoint = _this14.ended;
                         }
                     }
                 }, speed);
@@ -746,15 +858,18 @@ var SATURN = function () {
     }, {
         key: 'ctrAutoPlay',
         value: function ctrAutoPlay() {
-            var _this12 = this;
+            var _this15 = this;
 
-            this.mainElem.on('mouseenter touchstart', function () {
-                if (_this12.options.pauseOnHover) _this12.stopAuto();
-            }).on('mouseleave touchend', function (e) {
-                if (_this12.options.pauseOnHover && !_this12.playing) _this12.playAuto(_this12.options.wiatTime);
+            [this.mainElem.norm[0], this.outerDotCustom.norm[0]].forEach(function (data, i) {
+                if (i == 1 && !_this15.options.dotCustom) return _this15;
+                $dev(data).on('mouseenter touchstart', function () {
+                    if (_this15.options.pauseOnHover) _this15.stopAuto();
+                }).on('mouseleave touchend', function (e) {
+                    if (_this15.options.pauseOnHover && !_this15.playing) _this15.playAuto(_this15.options.wiatTime);
+                });
             });
             $dev(document).on('visibilitychange', function () {
-                if (document.hidden) _this12.stopAuto();else _this12.playAuto(_this12.options.wiatTime);
+                if (document.hidden) _this15.stopAuto(); else _this15.playAuto(_this15.options.wiatTime);
             });
             return this;
         }
@@ -763,163 +878,179 @@ var SATURN = function () {
     }, {
         key: 'dragment',
         value: function dragment() {
-            var _this13 = this;
+            var _this16 = this;
 
             var startPos = void 0,
-                dragr = false,
                 post = void 0,
                 ended = void 0;
-            var constant = this.options.dragType == 'swipe' ? 0.1 : 1;
-            ////////////////////////////////////////////
+            this.drager = false;
+            ////////////////////////////////////////
             var dragestart = function dragestart(pos) {
-                dragr = true;_this13.container.addClass('saturn-grabbing').removeClass('saturn-grab');
-                if (_this13.options.dir == -1) {
-                    post = parseFloat(_this13.outerItems.client().left - _this13.centering.client().left).toFixed(2);
+                _this16.swipe = _this16.options.dragType == 'swipe';
+                _this16.constant = _this16.swipe ? 0.1 : 1;
+                _this16.drager = true; _this16.container.addClass('saturn-grabbing').removeClass('saturn-grab');
+                if (_this16.direction == -1) {
+                    post = parseFloat(_this16.outerItems.client().left - _this16.centering.client().left).toFixed(2);
                 } else {
-                    post = parseFloat(_this13.outerItems.client().right - _this13.centering.client().right).toFixed(2);
+                    post = parseFloat(_this16.outerItems.client().right - _this16.centering.client().right).toFixed(2);
                 }
-                _this13.movement(post, _this13.transition, false);
+                _this16.moveForDrag(post, '0ms');
                 return startPos = pos;
             };
-            ////////////////////////////////////////////
+            ////////////////////////////////////////
             var drageend = function drageend(pos, e) {
-                if (dragr) {
-                    dragr = false;
-                    var distance = Math.ceil(Math.abs((startPos - pos) / _this13.oneWidth));
-                    var swipe = _this13.options.dragType == 'swipe';
-                    distance = swipe ? distance > 1 ? 1 : distance : distance;
-                    if (_this13.options.dir == -1) {
-                        if (_this13.options.loop) {
+                if (_this16.drager) {
+                    _this16.drager = false;
+                    var distance = Math.ceil(Math.abs((startPos - pos) / _this16.oneWidth));
+                    distance = _this16.swipe ? distance > 1 ? 1 : distance : distance;
+                    if (_this16.direction == -1) {
+                        if (_this16.options.loop) {
                             if (startPos - pos > 20) {
-                                _this13.startPoint += distance;
-                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                                _this16.startPoint += distance;
+                                _this16.moveForDrag(_this16.direction * (_this16.startPoint * _this16.oneWidth), _this16.transition);
                             } else if (pos - startPos > 20) {
-                                _this13.startPoint -= distance;
-                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                                _this16.startPoint -= distance;
+                                _this16.moveForDrag(_this16.direction * (_this16.startPoint * _this16.oneWidth), _this16.transition);
                             } else {
-                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                                _this16.moveForDrag(_this16.direction * (_this16.startPoint * _this16.oneWidth), _this16.transition);
                             }
                         } else {
                             if (startPos - pos > 20) {
-                                _this13.startPoint += distance;
-                                if (_this13.startPoint >= _this13.ended) _this13.startPoint = _this13.ended;
-                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                                _this16.startPoint += distance;
+                                if (_this16.startPoint >= _this16.ended) _this16.startPoint = _this16.ended;
+                                _this16.moveForDrag(_this16.direction * (_this16.startPoint * _this16.oneWidth), _this16.transition);
                             } else if (startPos - pos < 20) {
-                                _this13.startPoint -= distance;
-                                if (_this13.startPoint <= 0) _this13.startPoint = 0;
-                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                                _this16.startPoint -= distance;
+                                if (_this16.startPoint <= 0) _this16.startPoint = 0;
+                                _this16.moveForDrag(_this16.direction * (_this16.startPoint * _this16.oneWidth), _this16.transition);
                             } else {
-                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                                _this16.moveForDrag(_this16.direction * (_this16.startPoint * _this16.oneWidth), _this16.transition);
                             }
                         }
                     } else {
-                        if (_this13.options.loop) {
+                        if (_this16.options.loop) {
                             if (startPos - pos > 20) {
-                                _this13.startPoint -= distance;
-                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                                _this16.startPoint -= distance;
+                                _this16.moveForDrag(_this16.direction * (_this16.startPoint * _this16.oneWidth), _this16.transition);
                             } else if (pos - startPos > 20) {
-                                _this13.startPoint += distance;
-                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                                _this16.startPoint += distance;
+                                _this16.moveForDrag(_this16.direction * (_this16.startPoint * _this16.oneWidth), _this16.transition);
                             } else {
-                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                                _this16.moveForDrag(_this16.direction * (_this16.startPoint * _this16.oneWidth), _this16.transition);
                             }
                         } else {
                             if (startPos - pos > 20) {
-                                _this13.startPoint -= distance;
-                                if (_this13.startPoint <= 0) _this13.startPoint = 0;
-                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                                _this16.startPoint -= distance;
+                                if (_this16.startPoint <= 0) _this16.startPoint = 0;
+                                _this16.moveForDrag(_this16.direction * (_this16.startPoint * _this16.oneWidth), _this16.transition);
                             } else if (startPos - pos < 20) {
-                                _this13.startPoint += distance;
-                                if (_this13.startPoint >= _this13.ended) _this13.startPoint = _this13.ended;
-                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                                _this16.startPoint += distance;
+                                if (_this16.startPoint >= _this16.ended) _this16.startPoint = _this16.ended;
+                                _this16.moveForDrag(_this16.direction * (_this16.startPoint * _this16.oneWidth), _this16.transition);
                             } else {
-                                _this13.movement(_this13.options.dir * (_this13.startPoint * _this13.oneWidth), _this13.transition);
+                                _this16.moveForDrag(_this16.direction * (_this16.startPoint * _this16.oneWidth), _this16.transition);
                             }
                         }
                     }
-                    _this13.container.addClass('saturn-grab').removeClass('saturn-grabbing');
+                    _this16.container.addClass('saturn-grab').removeClass('saturn-grabbing');
                 }
             };
             ////////////////////////////////////////
             var dragemove = function dragemove(pos, e) {
-                if (dragr) {
-                    var farq = (startPos - pos) * constant;
+                if (_this16.drager) {
+                    var farq = (startPos - pos) * _this16.constant;
                     ended = post - farq;
-                    var distance = Math.ceil(Math.abs(farq / _this13.oneWidth));
+                    var distance = Math.ceil(Math.abs(farq / _this16.oneWidth));
                     var observer = void 0;
-                    var swipe = _this13.options.dragType == 'swipe';
-                    constant = swipe ? 0.1 : 1;
-                    distance = swipe ? distance > 1 ? 1 : distance : distance;
-                    if (_this13.options.dir == -1) {
-                        if (_this13.options.loop) {
+                    _this16.constant = _this16.swipe ? 0.1 : 1;
+                    distance = _this16.swipe ? distance > 1 ? 1 : distance : distance;
+                    if (_this16.direction == -1) {
+                        if (_this16.options.loop) {
                             if (pos < startPos) {
-                                if (_this13.startPoint + distance > _this13.ended - 1) {
-                                    _this13.startPoint = _this13.started;startPos = pos;post = _this13.options.dir * (_this13.startPoint * _this13.oneWidth);
+                                if (_this16.startPoint + distance > _this16.ended - 1) {
+                                    _this16.startPoint = _this16.started; startPos = pos; post = _this16.direction * (_this16.startPoint * _this16.oneWidth);
                                 }
-                                observer = _this13.startPoint + distance;
+                                observer = _this16.startPoint + distance;
                             } else {
-                                if (_this13.startPoint - distance < _this13.started) {
-                                    _this13.startPoint = _this13.ended - 1;startPos = pos;post = _this13.options.dir * (_this13.startPoint * _this13.oneWidth);
+                                if (_this16.startPoint - distance < _this16.started) {
+                                    _this16.startPoint = _this16.ended - 1; startPos = pos; post = _this16.direction * (_this16.startPoint * _this16.oneWidth);
                                 }
-                                observer = _this13.startPoint - distance;
+                                observer = _this16.startPoint - distance;
                             }
                         } else {
                             if (pos < startPos) {
-                                if (_this13.startPoint >= _this13.ended) {
-                                    constant = 0.1;
+                                if (_this16.startPoint >= _this16.ended) {
+                                    _this16.constant = 0.1;
                                 }
-                                observer = _this13.startPoint + distance;
+                                observer = _this16.startPoint + distance;
                             } else {
-                                if (_this13.startPoint <= 0) {
-                                    constant = 0.1;
+                                if (_this16.startPoint <= 0) {
+                                    _this16.constant = 0.1;
                                 }
-                                observer = _this13.startPoint - distance;
+                                observer = _this16.startPoint - distance;
                             }
                         }
                     } else {
-                        if (_this13.options.loop) {
+                        if (_this16.options.loop) {
                             if (pos > startPos) {
-                                if (_this13.startPoint + distance > _this13.ended - 1) {
-                                    _this13.startPoint = _this13.started;startPos = pos;post = _this13.options.dir * (_this13.startPoint * _this13.oneWidth);
+                                if (_this16.startPoint + distance > _this16.ended - 1) {
+                                    _this16.startPoint = _this16.started; startPos = pos; post = _this16.direction * (_this16.startPoint * _this16.oneWidth);
                                 }
-                                observer = _this13.startPoint + distance;
+                                observer = _this16.startPoint + distance;
                             } else {
-                                if (_this13.startPoint - distance < _this13.started) {
-                                    _this13.startPoint = _this13.ended - 1;startPos = pos;post = _this13.options.dir * (_this13.startPoint * _this13.oneWidth);
+                                if (_this16.startPoint - distance < _this16.started) {
+                                    _this16.startPoint = _this16.ended - 1; startPos = pos; post = _this16.direction * (_this16.startPoint * _this16.oneWidth);
                                 }
-                                observer = _this13.startPoint - distance;
+                                observer = _this16.startPoint - distance;
                             }
                         } else {
                             if (pos > startPos) {
-                                if (_this13.startPoint >= _this13.ended) {
-                                    constant = 0.1;
+                                if (_this16.startPoint >= _this16.ended) {
+                                    _this16.constant = 0.1;
                                 }
-                                observer = _this13.startPoint + distance;
+                                observer = _this16.startPoint + distance;
                             } else {
-                                if (_this13.startPoint <= 0) {
-                                    constant = 0.1;
+                                if (_this16.startPoint <= 0) {
+                                    _this16.constant = 0.1;
                                 }
-                                observer = _this13.startPoint - distance;
+                                observer = _this16.startPoint - distance;
                             }
                         }
                     }
-                    _this13.movement(ended, '0ms', observer);
-                    _this13.options.onDrag(_this13.newItems.norm[observer]);
+                    _this16.moveForDrag(ended, '0ms', observer);
+                    _this16.options.onDrag(_this16.newItems.norm[observer]);
                 }
             };
-            ////////////////////////////////////////////
-            this.container.on("mousedown touchstart mouseup touchend touchleave mousemove touchmove mouseleave", function (e) {
+            ////////////////////////////////////////
+            this.container.on('mousedown touchstart mouseup touchend touchleave mousemove touchmove mouseleave', function (e) {
                 e.preventDefault();
-                if (!_this13.options.dragger) return 0;
-                if (!_this13.detectPhone() && e.type == 'mousedown') dragestart(e.clientX);
-                if (_this13.detectPhone() && e.type == 'touchstart') dragestart(e.changedTouches[0].clientX);
-                ///////////////////////////////
-                if (!_this13.detectPhone() && e.type == 'mousemove') dragemove(e.clientX, e);
-                if (_this13.detectPhone() && e.type == 'touchmove') dragemove(e.changedTouches[0].clientX, e);
-                // // ///////////////////////////////
-                if (!_this13.detectPhone() && (e.type == 'mouseup' || e.type == 'mouseleave')) drageend(e.clientX, e);
-                if (_this13.detectPhone() && (e.type == 'touchend' || e.type == 'touchleave')) drageend(e.changedTouches[0].clientX, e);
+                if (!_this16.options.dragger) return 0;
+                if (!_this16.detectPhone() && e.type == 'mousedown') dragestart(e.clientX);
+                if (_this16.detectPhone() && e.type == 'touchstart') dragestart(e.changedTouches[0].clientX);
+                ////////////////////////////////////
+                if (!_this16.detectPhone() && e.type == 'mousemove') dragemove(e.clientX, e);
+                if (_this16.detectPhone() && e.type == 'touchmove') dragemove(e.changedTouches[0].clientX, e);
+                // // //////////////////////////////
+                if (!_this16.detectPhone() && (e.type == 'mouseup' || e.type == 'mouseleave')) drageend(e.clientX, e);
+                if (_this16.detectPhone() && (e.type == 'touchend' || e.type == 'touchleave')) drageend(e.changedTouches[0].clientX, e);
             });
+            ////////////////////////////////////////
+            var scroll = function scroll(e) {
+                if (_this16.options.mouseWheel) {
+                    e.preventDefault();
+                    var delta = Math.max(-1, Math.min(1, e.wheelDelta || -e.detail));
+                    if (delta == 1) _this16.handleNext(); else if (delta == -1) _this16.handlePrev();
+                }
+            };
+            if (this.prefix() == '-moz-') {
+                this.container.on('DOMMouseScroll', function (e) {
+                    scroll(e);
+                });
+            } else {
+                this.container.on('mousewheel', function (e) {
+                    scroll(e);
+                });
+            }
             return this;
         }
         ////////////////////////////////////////////
@@ -927,12 +1058,13 @@ var SATURN = function () {
     }, {
         key: 'destroy',
         value: function destroy() {
-            var _this14 = this;
+            var _this17 = this;
 
             this.mainElem.removeClass('saturn saturn-grab saturn-grabbing').html('');
             this.original.forEach(function (e) {
-                _this14.mainElem.append(e);
+                _this17.mainElem.append(e);
             });
+            $dev([].concat(_toConsumableArray(this.dotsCustom))).removeAttr("index").removeClass('saturn-hide saturn-goto active');
         }
     }]);
 
@@ -949,12 +1081,12 @@ var Saturn = function () {
     _createClass(Saturn, [{
         key: 'run',
         value: function run(opt) {
-            var _this15 = this;
+            var _this18 = this;
 
             this.saturn = [];
             var options = opt == undefined ? {} : opt;
             this.target.forEach(function (data) {
-                _this15.saturn.push(new SATURN(data, options));
+                _this18.saturn.push(new SATURN(data, options));
             });
             return this;
         }
@@ -962,7 +1094,7 @@ var Saturn = function () {
         key: 'back',
         value: function back(callback, ref) {
             this.saturn.forEach(function (saturn) {
-                callback(saturn);if (ref == true) saturn.refresh();
+                callback(saturn); if (ref == true) saturn.refresh();
             });
             return this;
         }
@@ -983,6 +1115,7 @@ var Saturn = function () {
     }, {
         key: 'desktop',
         value: function desktop(data) {
+            if (data == undefined) return this;
             this.back(function (saturn) {
                 saturn.desktop = saturn.setData(data, saturn.standerd);
             }, true);
@@ -990,6 +1123,7 @@ var Saturn = function () {
     }, {
         key: 'laptop',
         value: function laptop(data) {
+            if (data == undefined) return this;
             this.back(function (saturn) {
                 saturn.laptop = saturn.setData(data, saturn.desktop);
             }, true);
@@ -997,6 +1131,7 @@ var Saturn = function () {
     }, {
         key: 'tablet',
         value: function tablet(data) {
+            if (data == undefined) return this;
             this.back(function (saturn) {
                 saturn.tablet = saturn.setData(data, saturn.desktop);
             }, true);
@@ -1004,9 +1139,18 @@ var Saturn = function () {
     }, {
         key: 'phone',
         value: function phone(data) {
+            if (data == undefined) return this;
             this.back(function (saturn) {
                 saturn.phone = saturn.setData(data, saturn.phone);
             }, true);
+        }
+    }, {
+        key: 'goto',
+        value: function goto(i) {
+            if (i == undefined) return this;
+            this.back(function (saturn) {
+                saturn.gotoItem(i);
+            });
         }
     }, {
         key: 'next',
@@ -1024,15 +1168,19 @@ var Saturn = function () {
         }
     }, {
         key: 'play',
-        value: function play() {
+        value: function play(s) {
+            s = s == undefined ? 2500 : parseFloat(s);
             this.back(function (saturn) {
-                saturn.playAuto();
+                saturn.options.autoPlay = true;
+                saturn.options.wiatTime = s;
+                saturn.stopAuto().playAuto(s);
             });
         }
     }, {
         key: 'stop',
         value: function stop() {
             this.back(function (saturn) {
+                saturn.options.autoPlay = false;
                 saturn.stopAuto();
             });
         }
