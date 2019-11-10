@@ -6,8 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>saturn.js with DevAhmad.H</title>
-    <link rel="icon" href="https://i.ibb.co/nQsD21Z/saturn.png">
+    <link rel="icon" href="">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         /* ////////////////////// */
@@ -490,6 +489,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ext-emmet.js"></script>
     <script src="https://cloud9ide.github.io/emmet-core/emmet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/ext-beautify.js"></script>
+    <script id="scriptSaturn" src="saturn.main.js"></script>
 </head>
 
 <body>
@@ -780,8 +780,14 @@
                 mouseWheel: true, // to move slider when mouseWheel is run, default (false) type boolean;
                 dotCustom: true, // to build custom dot, default (false) type boolean;
                 responsiveBase: window, // Responsiveness depends on, default (window) type node/string;
+                onStart: function(e) {
+                    // This works when slider start drag, default (null) type function;
+                },
                 onDrag: function(e) {
-                // This works when slider pulls, default (null) type function;
+                    // This works when slider pulls, default (null) type function;
+                },
+                onEnd: function(e) {
+                // This works when slider end drag, default (null) type function;
                 },
                 onChange: function(e) {
                 // This works when slider change, default (null) type function;
@@ -1687,7 +1693,7 @@
                     '-moz-tap-highlight-color: rgba(0, 0, 0, 0);\n-o-tap-highlight-color: rgba(0, 0, 0, 0);\n}';
                 var style = '<style>' + styleContent + '<\/style>';
                 var css = '<style>' + cssCode.getValue() + '<\/style>';
-                var saturnJs = '<script src="https://devahmad7.github.io/saturn/saturn.min.js"><\/script>';
+                var saturnJs = '<script src="' + window.location.origin + '/' + $('#scriptSaturn').attr('src') + '"><\/script>';
                 var animate = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">';
                 var js = '<script>' + jsCode.getValue() + '<\/script>';
                 var meta = '<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">';
